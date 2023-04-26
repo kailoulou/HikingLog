@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import com.opencsv.CSVWriter;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.BufferedReader;
 
 
@@ -34,7 +32,7 @@ public class SaveAndLoad {
             e.printStackTrace();
         }
     }
-    public static void openFile(ObservableList<Trip> logData , TripList listIn, TableView<Trip> logTable, File file){
+    public static void openFile(ObservableList<Trip> logData , TripList listIn,  File file){
         String FieldDelimiter = ",";
 
         BufferedReader br;

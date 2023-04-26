@@ -359,7 +359,7 @@ public class HikingJournal extends Application {
             File file = fileChooser.showOpenDialog(primaryStage);
 
             if (file != null) {
-                SaveAndLoad.openFile(logData, tripList, logTable, file);
+                SaveAndLoad.openFile(logData, tripList, file);
                 primaryStage.setScene(scene);
             }
         });
