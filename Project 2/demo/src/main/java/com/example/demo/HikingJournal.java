@@ -74,6 +74,8 @@ public class HikingJournal extends Application {
         new String("Buy Hiking Boots")
     );
 
+    Button newJournal = new Button("Create New Journal");
+    Button continueJournal = new Button("Continue Previous Journal");
     Button addButton = new Button("Add Trip");
     Button removeButton = new Button("Remove Trip");
     Button planAddButton = new Button("Add Plan");
@@ -134,7 +136,7 @@ public class HikingJournal extends Application {
         tripList.addTrip(new Trip("7/20/21", "[PA] West Rim Trail", "33", "75", "This was a great 3 day backpacking trip!"));
         tripList.addTrip(new Trip("5/2/22", "[NY] Colgate Hiking Trail", "1", "55", "Too short"));
         tripList.addTrip(new Trip("9/12/22", "[PA] Appalachian Trail", "2190", "62", "Very rocky :("));
-        tripList.addTrip(new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", null));
+        tripList.addTrip(new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", "A lot of bears!"));
 
         TabPane tabPane = new TabPane();
 
@@ -195,14 +197,14 @@ public class HikingJournal extends Application {
         todoList.setPrefHeight(Integer.MAX_VALUE);
         todoList.setEditable(true);
 
-        todoList.setCellFactory(TextFieldListCell.forListView());		
-		todoList.setOnEditCommit(new EventHandler<ListView.EditEvent<String>>() {
-			@Override
-			public void handle(ListView.EditEvent<String> e) {
-				todoList.getItems().set(e.getIndex(), e.getNewValue());
-				System.out.println(e.getNewValue());
-			}	
-		});
+        todoList.setCellFactory(TextFieldListCell.forListView());
+        todoList.setOnEditCommit(new EventHandler<ListView.EditEvent<String>>() {
+            @Override
+            public void handle(ListView.EditEvent<String> e) {
+                todoList.getItems().set(e.getIndex(), e.getNewValue());
+                System.out.println(e.getNewValue());
+            }
+        });
 
 //-------------Sum & Total-------------
         counterSizing();
@@ -258,9 +260,7 @@ public class HikingJournal extends Application {
 
         Label title = new Label("Hiking Journal");
 
-        Button newJournal = new Button("Create New Journal");
         newJournal.setOnAction(e -> primaryStage.setScene(scene));
-        Button continueJournal = new Button("Continue Previous Journal");
 
         introButtons.getChildren().addAll(newJournal, continueJournal);
         introBox.getChildren().addAll(title, introButtons);
@@ -270,7 +270,7 @@ public class HikingJournal extends Application {
         System.out.print("Hello from right before css getting!\n");
         //introScene.getStylesheets().add(this.getClass().getResource("introStyle.css").toExternalForm());
 
-        saveAction(primaryStage);
+        saveAction(primaryStage, scene);
 
         primaryStage.setScene(introScene);
         primaryStage.setMinWidth(MINWIDTH);
@@ -331,7 +331,8 @@ public class HikingJournal extends Application {
         });
     }
 
-    public void saveAction(Stage primaryStage){
+    public void saveAction(Stage primaryStage, Scene scene){
+
         saveButton.setOnAction(evt -> {
             FileChooser fileChooser = new FileChooser();
 
@@ -343,9 +344,26 @@ public class HikingJournal extends Application {
             File file = fileChooser.showSaveDialog(primaryStage);
 
             if (file != null) {
-                //SaveAndLoad.saveToFile(tripList, file);
+                SaveAndLoad.saveToFile(tripList, file);
             }
         });
+
+        continueJournal.setOnAction(evt -> {
+            FileChooser fileChooser = new FileChooser();
+
+            //Set extension filter for text files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            //Show save file dialog
+            File file = fileChooser.showOpenDialog(primaryStage);
+
+            if (file != null) {
+                SaveAndLoad.openFile(logData, tripList, logTable, file);
+                primaryStage.setScene(scene);
+            }
+        });
+
     }
 
     public void logColSetOnCommit(TableColumn dateCol, TableColumn locCol, TableColumn distCol, TableColumn tempCol, TableColumn noteCol){
