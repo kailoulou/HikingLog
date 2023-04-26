@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import com.opencsv.CSVWriter;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
 import java.io.BufferedReader;
 
 
