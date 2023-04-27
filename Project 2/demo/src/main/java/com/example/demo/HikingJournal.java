@@ -146,11 +146,11 @@ public class HikingJournal extends Application {
         TableColumn dateCol = new TableColumn("Date (m/d/y)");
         TableColumn locCol = new TableColumn("Location");
         TableColumn distCol = new TableColumn("Distance (M)");
-        TableColumn tempCol = new TableColumn("Temp. (°F)");
-        TableColumn noteCol = new TableColumn("Notes");
+        //TableColumn tempCol = new TableColumn("Temp. (°F)");
+        //TableColumn noteCol = new TableColumn("Notes");
 
-        logColSetOnCommit(dateCol, locCol, distCol, tempCol, noteCol);
-        logSizing(dateCol, locCol, distCol, tempCol, noteCol);
+        logColSetOnCommit(dateCol, locCol, distCol);
+        logSizing(dateCol, locCol, distCol);
     
         logTable.setEditable(true);
         logTable.setPrefWidth(Integer.MAX_VALUE);
@@ -158,7 +158,7 @@ public class HikingJournal extends Application {
         logTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         logTable.setItems(logData);
-        logTable.getColumns().addAll(dateCol, locCol, distCol, tempCol, noteCol);
+        logTable.getColumns().addAll(dateCol, locCol, distCol);
 
 //-------------Plan-------------
         TableColumn planCol = new TableColumn("Location");
@@ -242,6 +242,8 @@ public class HikingJournal extends Application {
         logBox.getChildren().addAll(accor);
         detailClick();
         detailArrowClick(scene);
+        setNote(scene);
+        setTemp(scene);
 
         //-------------Intro Stage-------------
         VBox introBox = new VBox();
@@ -270,7 +272,9 @@ public class HikingJournal extends Application {
     public void update(){
         try {
             total.setText("" + tripList.getTotal());
+            System.out.println(tripList.getTotal());
             sum.setText("" + tripList.calculateTotalDistance());
+            System.out.println(tripList.calculateTotalDistance());
         }
         catch (NumberFormatException nfe) {
             System.out.println("Not a number");
@@ -355,7 +359,7 @@ public class HikingJournal extends Application {
 
     }
 
-    public void logColSetOnCommit(TableColumn dateCol, TableColumn locCol, TableColumn distCol, TableColumn tempCol, TableColumn noteCol){
+    public void logColSetOnCommit(TableColumn dateCol, TableColumn locCol, TableColumn distCol){
         dateCol.setCellValueFactory(
             new PropertyValueFactory<Trip, String>("date"));
         dateCol.setCellFactory(TextFieldTableCell.forTableColumn()); //CAUSING CRASH ON LAUNCH >:( (EDIT: switched data type from int to str and it resolved itself)
@@ -405,36 +409,36 @@ public class HikingJournal extends Application {
         );
 
         
-        tempCol.setCellValueFactory(
-            new PropertyValueFactory<Trip, Integer>("temp"));
-        tempCol.setCellFactory(TextFieldTableCell.forTableColumn()); //CAUSING CRASH ON LAUNCH >:( (EDIT: switched data type from int to str and it resolved itself)
-        tempCol.setOnEditCommit(
-            new EventHandler<CellEditEvent<Trip, String>>() {
-                @Override
-                public void handle(CellEditEvent<Trip, String> e) {
-                    ((Trip) e.getTableView().getItems().get(
-                        e.getTablePosition().getRow())
-                    ).setTemp(e.getNewValue());
-                System.out.println(e.getNewValue());
-                }
-            }
-        );
+//        tempCol.setCellValueFactory(
+//            new PropertyValueFactory<Trip, Integer>("temp"));
+//        tempCol.setCellFactory(TextFieldTableCell.forTableColumn()); //CAUSING CRASH ON LAUNCH >:( (EDIT: switched data type from int to str and it resolved itself)
+//        tempCol.setOnEditCommit(
+//            new EventHandler<CellEditEvent<Trip, String>>() {
+//                @Override
+//                public void handle(CellEditEvent<Trip, String> e) {
+//                    ((Trip) e.getTableView().getItems().get(
+//                        e.getTablePosition().getRow())
+//                    ).setTemp(e.getNewValue());
+//                System.out.println(e.getNewValue());
+//                }
+//            }
+//        );
         
         
-        noteCol.setCellValueFactory(
-            new PropertyValueFactory<Trip, String>("note"));
-        noteCol.setCellFactory(TextFieldTableCell.forTableColumn()); //CAUSING CRASH ON LAUNCH >:( (EDIT: switched data type from int to str and it resolved itself)
-        noteCol.setOnEditCommit(
-            new EventHandler<CellEditEvent<Trip, String>>() {
-                @Override
-                public void handle(CellEditEvent<Trip, String> e) {
-                    ((Trip) e.getTableView().getItems().get(
-                        e.getTablePosition().getRow())
-                    ).setNote(e.getNewValue());
-                System.out.println(e.getNewValue());
-                }
-            }
-        );
+//        noteCol.setCellValueFactory(
+//            new PropertyValueFactory<Trip, String>("note"));
+//        noteCol.setCellFactory(TextFieldTableCell.forTableColumn()); //CAUSING CRASH ON LAUNCH >:( (EDIT: switched data type from int to str and it resolved itself)
+//        noteCol.setOnEditCommit(
+//            new EventHandler<CellEditEvent<Trip, String>>() {
+//                @Override
+//                public void handle(CellEditEvent<Trip, String> e) {
+//                    ((Trip) e.getTableView().getItems().get(
+//                        e.getTablePosition().getRow())
+//                    ).setNote(e.getNewValue());
+//                System.out.println(e.getNewValue());
+//                }
+//            }
+//        );
     }
 
     public void planColSetOnCommit(TableColumn planCol, TableColumn approxCol, TableColumn diffCol){
@@ -484,7 +488,7 @@ public class HikingJournal extends Application {
         );
     }
 
-    public void logSizing(TableColumn dateCol, TableColumn locCol, TableColumn distCol, TableColumn tempCol, TableColumn noteCol){
+    public void logSizing(TableColumn dateCol, TableColumn locCol, TableColumn distCol){
         dateCol.setMinWidth(100);
         dateCol.setMaxWidth(100);
 
@@ -493,10 +497,10 @@ public class HikingJournal extends Application {
         distCol.setMinWidth(100);
         distCol.setMaxWidth(100);
 
-        tempCol.setMinWidth(100);
-        tempCol.setMaxWidth(100);
-
-        noteCol.setMinWidth(300);
+//        tempCol.setMinWidth(100);
+//        tempCol.setMaxWidth(100);
+//
+//        noteCol.setMinWidth(300);
         //noteCol.setPrefWidth(Integer.MAX_VALUE);
     }
 
@@ -588,5 +592,35 @@ public class HikingJournal extends Application {
             }
         });
 
+    }
+
+    protected void setNote(Scene sceneIn) {
+        sceneIn.addEventFilter(KeyEvent.ANY, evt -> {
+            Trip row = logTable.getSelectionModel().getSelectedItem();
+
+            if (evt.getCode() == KeyCode.ESCAPE) {
+                System.out.println("NOTE UPDATED");
+                System.out.println(noteDetails.getText());
+                if(row != null && noteDetails.getText() != null){
+                    row.setNote(noteDetails.getText());
+                    logTable.requestFocus();
+                }
+            }
+        });
+    }
+
+    protected void setTemp(Scene sceneIn) {
+        sceneIn.addEventFilter(KeyEvent.ANY, evt -> {
+            Trip row = logTable.getSelectionModel().getSelectedItem();
+
+            if (evt.getCode() == KeyCode.ESCAPE) {
+                System.out.println("NOTE UPDATED");
+                System.out.println(tempDetails.getText());
+                if(row != null && tempDetails.getText() != null){
+                    row.setTemp(tempDetails.getText());
+                    logTable.requestFocus();
+                }
+            }
+        });
     }
 }
