@@ -31,6 +31,8 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
+
 import javafx.stage.FileChooser;
 
 
@@ -38,6 +40,7 @@ import javafx.stage.FileChooser;
 public class HikingJournal extends Application {
     // attributes
     private TripList tripList = new TripList();
+    private PlanList planList = new PlanList();
 
     //initialize tableview
     private TableView<Trip> logTable = new TableView<Trip>();
@@ -127,9 +130,12 @@ public class HikingJournal extends Application {
         tripList.addTrip(new Trip("9/12/22", "[PA] Appalachian Trail", "2190", "62", "Very rocky :("));
         tripList.addTrip(new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", "A lot of bears!"));
 
+        planList.addPlan(new Plan("[NM] Philmont Scout Ranch", "180", "Hard"));
+
         TabPane tabPane = new TabPane();
 
         logTable.setPlaceholder(new Label("No hikes in your journal"));
+        planTable.setPlaceholder(new Label("No plans in your journal"));
         
         Tab log = new Tab("Hiking Log");
         log.setContent(mainLogBox);
@@ -298,15 +304,14 @@ public class HikingJournal extends Application {
 
 
         planAddButton.setOnAction(evt -> {
+            planList.addPlan(new Plan("-", "-", "-"));
             planData.add(new Plan("-", "-", "-"));
         });
 
         planRemoveButton.setOnAction(evt -> {
             if (planTable.getSelectionModel().getSelectedItem()!= null){
+                planList.removePlan(planTable.getSelectionModel().getSelectedItem());
                 planData.remove(planTable.getSelectionModel().getSelectedItem());
-                if(planData.size() == 0){
-                    planAddButton.fire(); //prevents tableview from being empty
-                }
             }
         });
 
@@ -337,7 +342,7 @@ public class HikingJournal extends Application {
             File file = fileChooser.showSaveDialog(primaryStage);
 
             if (file != null) {
-                SaveAndLoad.saveToFile(tripList, file);
+                SaveAndLoad.saveToFile(tripList, planList, todoData, file);
             }
         });
 
@@ -352,7 +357,8 @@ public class HikingJournal extends Application {
             File file = fileChooser.showOpenDialog(primaryStage);
 
             if (file != null) {
-                SaveAndLoad.openFile(logData, tripList, file);
+                SaveAndLoad.openFile(logData, planData, tripList, planList, todoData, file);
+                update();
                 primaryStage.setScene(scene);
             }
         });
