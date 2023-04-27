@@ -5,18 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import javafx.scene.paint.Color;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
@@ -33,14 +26,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.stage.Stage;
 
-import javafx.collections.ListChangeListener;
 import java.io.File;
 import javafx.stage.FileChooser;
 
@@ -230,7 +219,7 @@ public class HikingJournal extends Application {
         mainPlanBox.getStyleClass().add("bg");
 
         Scene scene = new Scene(tabPane, WIDTH, HEIGHT);
-        scene.getStylesheets().add("style.css");
+        scene.getStylesheets().add("/com/example/demo/style.css");
 
 //-------------Accordion-------------
         //creating Vbox
@@ -268,7 +257,7 @@ public class HikingJournal extends Application {
         introBox.setId("pane");
         Scene introScene = new Scene(introBox, WIDTH, HEIGHT);
         System.out.print("Hello from right before css getting!\n");
-        //introScene.getStylesheets().add(this.getClass().getResource("introStyle.css").toExternalForm());
+        introScene.getStylesheets().add(getClass().getResource("/com/example/demo/introStyle.css").toExternalForm());
 
         saveAction(primaryStage, scene);
 
