@@ -219,7 +219,7 @@ public class HikingJournal extends Application {
         mainPlanBox.getStyleClass().add("bg");
 
         Scene scene = new Scene(tabPane, WIDTH, HEIGHT);
-        scene.getStylesheets().add("/com/example/demo/style.css");
+        scene.getStylesheets().add(getClass().getResource("/com/example/demo/style.css").toExternalForm());
 
 //-------------Accordion-------------
         //creating Vbox
