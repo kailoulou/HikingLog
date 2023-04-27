@@ -28,6 +28,8 @@ import javafx.scene.control.cell.TextFieldListCell;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -256,11 +258,20 @@ public class HikingJournal extends Application {
         HBox introButtons = new HBox();
 
         Label title = new Label("Hiking Journal");
+        Font font = new Font("Calibri", 80);
+        title.setFont(font);
+        title.setTextFill(Color.GHOSTWHITE);
 
         newJournal.setOnAction(e -> primaryStage.setScene(scene));
 
         introButtons.getChildren().addAll(newJournal, continueJournal);
+        introButtons.setSpacing(10);
         introBox.getChildren().addAll(title, introButtons);
+        introBox.setSpacing(5);
+
+        HBox[] hBoxes = {introButtons};
+        VBox[] vBoxes = {introBox};
+        setAlignments(hBoxes, vBoxes, Pos.CENTER);
 
         introBox.setId("pane");
         Scene introScene = new Scene(introBox, WIDTH, HEIGHT);
@@ -274,7 +285,15 @@ public class HikingJournal extends Application {
         primaryStage.setMinHeight(MINHEIGHT);
         primaryStage.show();
     }
+    private void setAlignments(HBox[] hb, VBox[] vb, Pos pos) {
 
+        for (int i=0; i<hb.length; i++) {
+            hb[i].setAlignment(pos);
+        }
+        for (int i=0; i<vb.length; i++) {
+            vb[i].setAlignment(pos);
+        }
+    }
     public void update(){
         try {
             total.setText("" + tripList.getTotal());
