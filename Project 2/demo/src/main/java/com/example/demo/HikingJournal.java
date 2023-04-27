@@ -328,7 +328,18 @@ public class HikingJournal extends Application {
             }
         });
     }
-
+    private void updateTripList(){
+        tripList.clearList();
+        for (int i = 0; i < logData.size(); i++){
+            tripList.addTrip(logData.get(i));
+        }
+    }
+    private void updatePlanList(){
+        planList.clearList();
+        for (int i = 0; i < planData.size(); i++){
+            planList.addPlan(planData.get(i));
+        }
+    }
     public void saveAction(Stage primaryStage, Scene scene){
 
         saveButton.setOnAction(evt -> {
@@ -342,6 +353,8 @@ public class HikingJournal extends Application {
             File file = fileChooser.showSaveDialog(primaryStage);
 
             if (file != null) {
+                updateTripList();
+                updatePlanList();
                 SaveAndLoad.saveToFile(tripList, planList, todoData, file);
             }
         });
