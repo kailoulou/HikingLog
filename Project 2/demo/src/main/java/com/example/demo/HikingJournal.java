@@ -3,13 +3,16 @@ package com.example.demo;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
+import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.io.IOException;
 
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
@@ -25,7 +28,6 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldListCell;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
@@ -33,10 +35,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 
 import javafx.stage.FileChooser;
-
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 
 public class HikingJournal extends Application {
@@ -89,10 +92,29 @@ public class HikingJournal extends Application {
     TextArea noteDetails = new TextArea();
 
     Label trailDetailsLabel = new Label("-----");
-    Label tempDetailsLabel = new Label("Weather Conditions:");
+    Label tempDetailsLabel = new Label("Weather:");
     Label noteDetailsLabel = new Label("Notes:");
 
+    Label addLabel = new Label("Add Trip");
+    Label locationLabel = new Label("Location:");
+    TextField addLocation = new TextField();
 
+    Label dateLabel = new Label("Date (m/d/y):");
+    TextField addDate = new TextField();
+
+    Label distanceLabel = new Label("Distance (M):");
+    TextField addDistance = new TextField();
+
+    Label tempLabel = new Label("Weather:");
+    TextField addTemp = new TextField();
+
+    Label noteLabel = new Label("Notes:");
+    TextArea addNote = new TextArea();
+
+    Button submitButton = new Button("Submit");
+
+    ArrayList<String> suggestions = new ArrayList<>();
+    private AutoCompletionBinding<String> autoCompletionBinding;
     //init size
     private final int WIDTH = 800;
     private final int HEIGHT = 500;
@@ -127,11 +149,11 @@ public class HikingJournal extends Application {
 
     public void start(Stage primaryStage) throws IOException {
         // add test trips to the list
-        tripList.addTrip(new Trip("7/20/21", "[PA] West Rim Trail", "33", "75", "This was a great 3 day backpacking trip!"));
+        /*tripList.addTrip(new Trip("7/20/21", "[PA] West Rim Trail", "33", "75", "This was a great 3 day backpacking trip!"));
         tripList.addTrip(new Trip("5/2/22", "[NY] Colgate Hiking Trail", "1", "55", "Too short"));
         tripList.addTrip(new Trip("9/12/22", "[PA] Appalachian Trail", "2190", "62", "Very rocky :("));
         tripList.addTrip(new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", "A lot of bears!"));
-
+*/
         planList.addPlan(new Plan("[NM] Philmont Scout Ranch", "180", "Hard"));
 
         TabPane tabPane = new TabPane();
@@ -212,7 +234,7 @@ public class HikingJournal extends Application {
         sumBox.getChildren().addAll(sumLabel, sum);
     
 //-------------Buttons-------------
-        buttonSetOnAction();
+        buttonSetOnAction(planCol, approxCol, diffCol);
         buttonSizing();
 
         // save just placed there for implementation
@@ -279,6 +301,45 @@ public class HikingJournal extends Application {
         introScene.getStylesheets().add(getClass().getResource("/com/example/demo/introStyle.css").toExternalForm());
 
         saveAction(primaryStage, scene);
+        //-------------Add Stage-------------
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+
+        addDate.setMaxSize(250, 50);
+        addLocation.setMaxSize(250, 50);
+        addDistance.setMaxSize(250, 50);
+        addTemp.setMaxSize(250, 50);
+        addNote.setMaxSize(250, 50);
+
+        layout.add(addDate, 1,1);
+        layout.add(addLocation, 1,2);
+        layout.add(addDistance, 1,3);
+        layout.add(addTemp, 1,4);
+        layout.add(addNote, 1, 5);
+        layout.add(dateLabel, 0,1);
+        layout.add(locationLabel, 0,2);
+        layout.add(distanceLabel, 0,3);
+        layout.add(tempLabel, 0,4);
+        layout.add(noteLabel, 0,5);
+        layout.add(submitButton, 1, 6);
+        GridPane.setHalignment(submitButton, HPos.RIGHT);
+
+        Scene addScene = new Scene(layout, 350, 230);
+        Stage addWindow = new Stage();
+        addWindow.setMaxHeight(250);
+        addWindow.setMinHeight(250);
+        addWindow.setMaxWidth(350);
+        addWindow.setMinWidth(350);
+        addWindow.setTitle("Add Trip");
+        addWindow.setScene(addScene);
+
+        addHandler(addWindow);
+        autoComplete();
+        //private Set<String> possibleSuggestions = new HashSet<>(List.of(suggestions));
+
 
         primaryStage.setScene(introScene);
         primaryStage.setMinWidth(MINWIDTH);
@@ -294,6 +355,38 @@ public class HikingJournal extends Application {
             vb[i].setAlignment(pos);
         }
     }
+
+    public void autoComplete(){
+        //TextFields.bindAutoCompletion(addLocation, "Hey", "Hello", "Hello World", "Apple", "Cool", "Costa", "Cola", "Coca Cola");
+
+        /*ReadData.suggestionsArray(suggestions, "Project 2/Edited AllTrails data - nationalpark.csv");
+        String[] possibleSuggestionsArray = new String[suggestions.size()];
+        possibleSuggestionsArray = suggestions.toArray(possibleSuggestionsArray);
+        Set<String> possibleSuggestions = new HashSet<>(Arrays.asList(possibleSuggestionsArray));
+
+        autoCompletionBinding = TextFields.bindAutoCompletion(addLocation, possibleSuggestions);
+
+        addLocation.setOnKeyPressed(ke -> {
+            switch (ke.getCode()) {
+                case ENTER:
+                    autoCompletionLearnWord(possibleSuggestions, addLocation.getText().trim());
+                    break;
+                default:
+                    break;
+            }
+        });
+         */
+    }
+
+    private void autoCompletionLearnWord(Set<String> possibleSuggestions, String newWord){
+        possibleSuggestions.add(newWord);
+        // we dispose the old binding and recreate a new binding
+        if (autoCompletionBinding != null) {
+            autoCompletionBinding.dispose();
+        }
+        autoCompletionBinding = TextFields.bindAutoCompletion(addLocation, possibleSuggestions);
+    }
+
     public void update(){
         try {
             total.setText("" + tripList.getTotal());
@@ -306,25 +399,34 @@ public class HikingJournal extends Application {
         }
     }
 
-    public void buttonSetOnAction(){
-    
+    public void addHandler(Stage stage){
         addButton.setOnAction(evt -> {
-            tripList.addTrip(new Trip("-", "-", "-", "-", "-"));
-            logData.add(new Trip("-", "-", "-", "-", "-"));
-            update();
+            stage.show();
         });
+
+        submitButton.setOnAction(evt ->{
+            tripList.addTrip(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
+            logData.add(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
+            update();
+            stage.close();
+        });
+    }
+    public void buttonSetOnAction(TableColumn planCol, TableColumn approxCol, TableColumn diffCol){
 
         removeButton.setOnAction(evt -> {
             if (logTable.getSelectionModel().getSelectedItem()!= null){
                 tripList.removeTrip(logTable.getSelectionModel().getSelectedItem());
                 logData.remove(logTable.getSelectionModel().getSelectedItem());
+                update();
             }
         });
 
 
         planAddButton.setOnAction(evt -> {
-            planList.addPlan(new Plan("-", "-", "-"));
-            planData.add(new Plan("-", "-", "-"));
+            planData.add(new Plan("", "", ""));
+            planTable.edit(planList.getTotal(), planCol);
+            planTable.getSelectionModel().select(planData.size() - 1);
+            planList.addPlan(new Plan(planData.get(planData.size()-1).getLocation(), planData.get(planData.size()-1).getDistance(), planData.get(planData.size()-1).getDifficulty()));
         });
 
         planRemoveButton.setOnAction(evt -> {
@@ -335,7 +437,9 @@ public class HikingJournal extends Application {
         });
 
         todoAddButton.setOnAction(evt -> {
-            todoData.add(new String("-"));
+            todoData.add(new String(""));
+            todoList.edit(todoData.size() - 1);
+            todoList.getSelectionModel().select(todoData.size() - 1);
         });
 
         todoRemoveButton.setOnAction(evt -> {
@@ -376,6 +480,7 @@ public class HikingJournal extends Application {
                 updatePlanList();
                 SaveAndLoad.saveToFile(tripList, planList, todoData, file);
             }
+            primaryStage.close();
         });
 
         continueJournal.setOnAction(evt -> {
@@ -573,12 +678,17 @@ public class HikingJournal extends Application {
         addButton.setMinHeight(25);
         addButton.setMinWidth(100);
         addButton.setMaxWidth(100);
-        buttonBox.setMargin(addButton, new Insets(10, 0, 5, 350));
+        buttonBox.setMargin(addButton, new Insets(10, 0, 5, 400));
 
         removeButton.setMinHeight(25);
         removeButton.setMinWidth(100);
         removeButton.setMaxWidth(100);
-        buttonBox.setMargin(removeButton, new Insets(0, 0, 10, 350));
+        buttonBox.setMargin(removeButton, new Insets(0, 0, 10, 400));
+
+        saveButton.setMinHeight(25);
+        saveButton.setMinWidth(100);
+        saveButton.setMaxWidth(100);
+        buttonBox.setMargin(saveButton, new Insets(0, 0, 10, 400));
 
         planAddButton.setMinHeight(25);
         planAddButton.setMinWidth(100);
