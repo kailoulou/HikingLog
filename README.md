@@ -57,14 +57,15 @@ This map will be under “Your Journeys” and will place pins or “Points of I
 * Plan.java
     * Intializes the plan objects based off of the user’s “Planning Board” input
 
-* Trailinit.java
-    * This file will be loaded before any of the main parts of the program are accessible to the user and stored as final global variable so that it may only be accessed. 
-    * This file will be responsible for creating a hashmap which will then point to another hashmap so that it may be readily accessed within our main file. The formatting for this hashmap will go as follows:
+* TrailLibrary.java
+    * This file will read a file of Trails (from the All Trails database) and create a searchable dictionary of trails before the front end runs (i.e. made visible) to the user and stored as a constant class variable so that it may only be accessed. 
+    * This class will be responsible for creating a nested hashmap so that it may be readily accessed within our main file. The formatting for this hashmap will go as follows:
         * myMap : TrailsHashMap : TrailName -> Information
-    * The specific information in “Information” will be latitude, longitude, and length of the trail.  
+    * A dictionary search will retun a Trail that is then refered in the main app.
+        * The specific information will be latitude, longitude, and length of the trail.
 
 * Country.java
-    * While our source does have a lot of data, for this version we will be only using the US Country to help map out all of the data and make it easier. Placing the Country object in context of the Globe object will also allow us to get precise information about the coordinates of the trails and we will not have to recontextualize the geographic information. 
+    * While our source does have a lot of data, for this version we will be only using the US Country to help map out all of the data and make it easier. Placing the Country object in context of the World Map will also allow us to get precise information about the coordinates of the trails and we will not have to recontextualize the geographic information. 
 
 * HikingJournal.java
     * This is the primary file, containing all of the code for the GUI as well as a number of helper functions
@@ -73,7 +74,7 @@ This map will be under “Your Journeys” and will place pins or “Points of I
     * This file simply contains the css style code to customize the application’s colors and widgets
 
 ### Objects and Data Structures
-* One of the unique data structures we are building is the access to the maps functionality from within the main file of the program. This data structure is known as the “Trails Library'' which is a hashmap pointing to another hashmap. The top layer hashmap is meant to be a readily accessible method which allows the program to quickly access the nested hashmap. The nested hashmap contains:
+* One of the unique data structures we are building is the access to the maps functionality from within the main file of the program. This data structure is known as the “Trails Library'' which is a hashmap pointing to another hashmap. The top layer hashmap is meant to have a public method which allows the program to quickly access the nested hashmap. The nested hashmap contains:
     * the trail names 
     * points to an array containing the information of the trails including:
         * longitude
@@ -83,23 +84,15 @@ This map will be under “Your Journeys” and will place pins or “Points of I
         * city location
 This hashmap will be accessed by the rest of the program including the country map developed by Eingestellt von Solo which we will be using. Kai is primarily responsible for the integration and interfacing between these two aspects of the program in development.
 
-* The majority of the data presented to the user is through the two tableviews. 
-    * Displays logged trips
-    * Displays planned trips. 
+* The majority of the data presented to the user is through the two tableviews, each of which display
+    * logged trips and 
+    * planned trips 
 Both tableviews utilize an observable list of trip and plan objects respectively, the constructors of these being defined in the helper files. Additionally, there is a listview todo list which uses a simple observable list of type String.
-
-*  In order for the user to upload pictures of their hike to the log, we will create a drag-and-drop operation within the program. This operation will:
-    * Transfer data between two objects
-        * Gesture source object
-        * Gesture target object
-    * Be implemented between our JavaFX program and a desktop application
-    * Transfer data from the users desktop to the program using a dragboard
-    * Utilize the DragEvent class to implement the drag-and-drop gesture. 
 
 * Once the user is finished editing their hiking journal, they will have the option to save it. The user can also reload one of their previously saved hiking journals to the program by selecting the specified “Continue Previous Log” button in the start screen. These operation will: 
     * Utilize the FileChooser class to create a file choosing dialog to select files for saving and opening
     * Use the default system’s progam for file choosing
-    * Only allow .txt files to be loaded
+    * Only allow .csv files to be loaded
     * Write and save the text content to the file once the file name is specified and the save button is pressed
 
 * More in depth details will be stored in an accordion to the right of the log tab’s tableview. The goal of this is to limit clutter on the main page so user experience is not cluttered. This will display:
@@ -145,9 +138,6 @@ https://docs.oracle.com/javafx/2/layout/style_css.htm
 
 https://stackoverflow.com/questions/37647933/how-can-i-use-the-google-maps-apis-in-a-javafx-desktop-application 
 * Google maps API in JavaFx
-
-https://stackoverflow.com/questions/26783907/how-to-access-a-variable-defined-in-another-scope-in-less 
-* Custom widget hovering
 
 https://docs.oracle.com/javase/8/javafx/events-tutorial/drag-drop.htm#CHDJFJDH 
 * Drag and drop operation
