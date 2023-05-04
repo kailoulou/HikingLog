@@ -186,15 +186,15 @@ Herman Shugart, Peter White, Sassan Saatchi, and Jérôme Chave. 2022. The wor
 
 * Main unititialized hiking log and planning board screens that are loaded  when the user chooses the "Create New Journal" button in the start screen.
 
-<img width="800" alt="Screen Shot 2023-05-04 at 4 24 07 PM" src="https://user-images.githubusercontent.com/104330705/236321475-1a7cfb7f-4ec7-4988-9114-4171c9d22dd0.png">
+   <img width="800" alt="Screen Shot 2023-05-04 at 4 24 07 PM" src="https://user-images.githubusercontent.com/104330705/236321475-1a7cfb7f-4ec7-4988-9114-4171c9d22dd0.png">
 
-<img width="800" alt="Screen Shot 2023-05-04 at 4 26 29 PM" src="https://user-images.githubusercontent.com/104330705/236321499-296e92d6-bb36-4663-9218-d92864cc4ce5.png">
+   <img width="800" alt="Screen Shot 2023-05-04 at 4 26 29 PM" src="https://user-images.githubusercontent.com/104330705/236321499-296e92d6-bb36-4663-9218-d92864cc4ce5.png">
 
 * Main hiking log and planning board screens that are loaded with a previous hiking log when the user chooses the "Contine Previous Journal" button in the start screen.
 
    <img width="802" alt="Screen Shot 2023-05-04 at 4 18 29 PM" src="https://user-images.githubusercontent.com/104330705/236320115-fbce15e3-860d-4e6d-bd82-5dc6b8455f2b.png">
    
-<img width="801" alt="Screen Shot 2023-05-04 at 4 18 37 PM" src="https://user-images.githubusercontent.com/104330705/236320502-a65671fc-e86c-44f6-a4f9-e3ed9ece64b5.png">
+   <img width="801" alt="Screen Shot 2023-05-04 at 4 18 37 PM" src="https://user-images.githubusercontent.com/104330705/236320502-a65671fc-e86c-44f6-a4f9-e3ed9ece64b5.png">
 
 ## Authors
 
