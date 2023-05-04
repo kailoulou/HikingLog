@@ -162,6 +162,10 @@ John Forti. 2021. The heirloom gardener: traditional plants & skills for the mod
 
 Herman Shugart, Peter White, Sassan Saatchi, and Jérôme Chave. 2022. The world atlas of trees and forests: exploring Earth’s forest ecosystems. Princeton University Press, Princeton.
 
+## Mockups for the Hiking Log
+![Hiking Log](https://user-images.githubusercontent.com/104330705/236317824-ffe93fa2-15db-4151-b77c-c1509a75f4a8.png)
+
+
 ## Authors
 
 * [Kai Davis](kdavis@colgate.edu)
