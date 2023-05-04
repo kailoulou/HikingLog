@@ -4,37 +4,38 @@
 ### The Nature and Purpose of our Project
 The purpose of this project is to create a digital equivalent of a traditional Hiking Log. It will have all of the personal characteristics of a physical hiking journal with the ease and organization of a web application. This program is intended to be used before and after the hike, so that the user can prepare and reflect on their journey.
 
+Once the hike is completed, the user can add it to the “Hiking Log” tab, specifying the hike’s:
+* Name
+* Distance
+* Date (M/D/Y)
+* Temperature on the day hiked
+* Notes
+
 Like a physical hiking log, users can first plan out their hikes on the designated “Planning Board” tab. Users can specify the hike’s:
 * Location
 * Distance
 * Difficulty level
 * Required equipment
 
-Once the hike is completed, the user can add it to the “Hiking Log” tab, specifying the hike’s:
-* Name
-* Distance
-* Date
-* Temperature on the day hiked
-* Notes
-
 Using this information, the program calculate and displays the user’s hiking statistics including:
 * The total amount of hiking trips taked
 * The total amount of miles traveled 
 
 Our program will evolve from this initial application by first reorganizing and formatting our current visual components in order to make the program visually appealing and easy for the user to navigate. We will:
-1. Creating a start window to introduce our application and its purpose 
-2. To improve the look of our program, we will focus on stylizing the current visual components by implementing color backgrounds and customized buttons using CSS so that it will have a cleaner, more aesthetically pleasing look
-3. Reformat the program’s buttons and tableviews so that they are centered within the window, allowing for the application to be seamlessly resized.
+1. Create a start window to introduce our application and its purpose 
+2. Improve the look of our program, we will focus on stylizing the current visual components by implementing color backgrounds and customizing buttons with CSS so the overall look will be clean, and aesthetically pleasing
+3. Placing two sizing components such that they remain centered within the window, allowing for the application to be seamlessly resized.
 
 In addition, we will also implement a search feature in which users can filter through a database of hiking trails in the United States and select one to add to their log. If the user searches for a trail that is not in the database, they can select the custom add feature which allows them to add any trail to the log. Our process is to:
-1. Create a TextField with AutoComplete functionality based on the supplied trail list from the dataset
+1. Create a 'TextField' with AutoComplete functionality based on the supplied trail list from the dataset
 2. Display a pop up window to enter the necessary information to add trails not contained in the dataset to the hiking log
 
-Another visual element of our program is a map of the United States in which has pins geographically displaying where the user has hiked. Our process is to:
+Another visual element of our program is a map of the United States with pins where the user has hiked. Our process is to:
 1. Create pins using a prebuilt library by Eingestellt von Solo displaying a country map of the United States 
 2. Add the MapView to the tab’s scene and use the mapping library’s API to add the trail pins to their designated location and access additional functionality such as panning and zooming
+3. When the user hovers over one of the pins on the map, the name of the trail will be displayed
 
-We also intend to add a drag-and-drop feature in which users can upload pictures from their hike into the log. When the user hovers over one of the pins on the map, the name of the trail will be displayed in addition to any pictures from that hike that have been uploaded to the program. Our program will have a save button so that all of the information inputted will be stored in a file so that users can continue to edit and grow their hiking logs. 
+We also intend to add a feature in which users can upload pictures from their hike into the log, which will be displayed in the accordion. Our program will have a save button so that all of the information inputted will be stored in a file so that users can continue to edit and grow their hiking logs. 
 
 ## Mockups for the Hiking Log
 
