@@ -7,6 +7,9 @@ public class Trip {
     private String distance;
     private String temp;
     private String note;
+    private String xCord;
+    private String yCord;
+
 
     /** Constructor initialises the details of the trip
   	*  @param  dateIn: date the trip took place
@@ -15,12 +18,14 @@ public class Trip {
     *  @param  tempIn: temperature during the beginning of the hike or average temp
     *  @param  noteIn: a description of the trip
 	*/
-	public Trip(String dateIn, String locationIn, String distanceIn, String tempIn, String noteIn) {
+	public Trip(String dateIn, String locationIn, String distanceIn, String tempIn, String noteIn, String xCordIn, String yCordIn) {
             date = dateIn;
             location = locationIn;
             distance = distanceIn;
             temp = tempIn;
             note = noteIn;
+            xCord = xCordIn; //cast later when using in map
+            yCord = yCordIn; //cast later when using in map
 	}
 
     /** Reads the date of the trip
