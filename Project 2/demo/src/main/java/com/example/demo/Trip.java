@@ -18,14 +18,14 @@ public class Trip {
     *  @param  tempIn: temperature during the beginning of the hike or average temp
     *  @param  noteIn: a description of the trip
 	*/
-	public Trip(String dateIn, String locationIn, String distanceIn, String tempIn, String noteIn, String xCordIn, String yCordIn) {
+	public Trip(String dateIn, String locationIn, String distanceIn, String tempIn, String noteIn) {
             date = dateIn;
             location = locationIn;
             distance = distanceIn;
             temp = tempIn;
             note = noteIn;
-            xCord = xCordIn; //cast later when using in map
-            yCord = yCordIn; //cast later when using in map
+            xCord = "0"; //cast later when using in map
+            yCord = "0"; //cast later when using in map
 	}
 
     /** Reads the date of the trip
@@ -85,6 +85,22 @@ public class Trip {
 
     public void setNote(String noteIn){
         note = noteIn;
+    }
+
+    public void setxCord(String xCordIn){
+        xCord = xCordIn;
+    }
+
+    public String getxCord(){
+        return xCord;
+    }
+
+    public void setyCord(String yCordIn){
+        yCord=yCordIn;
+    }
+
+    public String getyCord(){
+        return yCord;
     }
 
     @Override

@@ -410,6 +410,11 @@ public class HikingJournal extends Application {
             tripList.addTrip(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
             logData.add(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
             update();
+            addLocation.setText(""); //clears old user inputs
+            addDate.setText("");
+            addDistance.setText("");
+            addTemp.setText("");
+            addNote.setText("");
             stage.close();
         });
     }
