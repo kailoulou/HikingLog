@@ -27,7 +27,7 @@ Our program will evolve from this initial application by first reorganizing and 
 3. Placing two sizing components such that they remain centered within the window, allowing for the application to be seamlessly resized.
 
 In addition, we will also implement a search feature in which users can filter through a database of hiking trails in the United States and select one to add to their log. If the user searches for a trail that is not in the database, they can select the custom add feature which allows them to add any trail to the log. Our process is to:
-1. Create a 'TextField' with AutoComplete functionality based on the supplied trail list from the dataset
+1. Create a `TextField` with AutoComplete functionality based on the supplied trail list from the dataset
 2. Display a pop up window to enter the necessary information to add trails not contained in the dataset to the hiking log
 
 Another visual element of our program is a map of the United States with pins where the user has hiked. Our process is to:
