@@ -119,7 +119,7 @@ Both tableviews utilize an observable list of trip and plan objects respectively
 3. Create a search feature for hiking trails in which the name of the trail is autofilled from a dataset of hiking trails in the United States
 4. Initialize a custom “Add Trail” button in which users can add a trail to the hiking log, inputting the trail’s name into a search bar that will have autofill suggestions based on the trails contained in our dataset
 5. Implement graphics contexts to visually display and compare the data of each hike
-6. Add a Drag and Drop feature in which users can upload their own photos, which can be shown when the user hovers over a map pin
+6. Add a feature in which users can upload their own photos, which can be shown in the trip accordion. If the user has not uploaded an image, a default image will be shown
 7. Check off feature in to do list that strikes-through an element contained in the list, conveying that it has been completed
 8. Implement a save feature in which the contents of the hiking log can be saved to a file and later edited in the application
 9. Create a start screen for the program in which the user can decide to create a new hiking log or continue editing a previously saved hiking log
