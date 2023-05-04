@@ -163,12 +163,22 @@ John Forti. 2021. The heirloom gardener: traditional plants & skills for the mod
 Herman Shugart, Peter White, Sassan Saatchi, and Jérôme Chave. 2022. The world atlas of trees and forests: exploring Earth’s forest ecosystems. Princeton University Press, Princeton.
 
 ## Mockups for the Hiking Log
-Main Screen for the Hiking Log by which users will be able to primarily interact with the program.
+* Main Screen for the Hiking Log by which users will be able to primarily interact with the program.
+
+   <img width="567" alt="Blank screen" src="https://user-images.githubusercontent.com/104330705/236319054-1101e8cc-5e73-4fa3-88df-bae4fc05314c.png">
+  
 * An accordion menu will appear on the right hand side of the screen when the user clicks “Add Trip.” Here, the user can input their log and will be assisted by an autocomplete search for the trail name should they wish.
 
-![Hiking Log](https://user-images.githubusercontent.com/104330705/236317824-ffe93fa2-15db-4151-b77c-c1509a75f4a8.png)
+   <img width="562" alt="Blank Accordion" src="https://user-images.githubusercontent.com/104330705/236319196-14176df1-21ed-48de-83e8-d065536fa6d3.png">
 
+* The right hand side accordion menu will display the input information for a hike that they click on within the in-the-table display.
 
+   ![Hiking Log](https://user-images.githubusercontent.com/104330705/236317824-ffe93fa2-15db-4151-b77c-c1509a75f4a8.png)
+   
+* This map will be under “Your Journeys” and will place pins or “Points of Interest” in the map which users can hover over, accessing the same data as in the hiking log. Upon hovering, it displays the name and the date of the hike. If the user clicks on it, they will be redirected to its respective entry in the log.
+   
+   ![USALayer](https://user-images.githubusercontent.com/104330705/236319248-479aa40e-5321-4e01-bac8-0fef02e7e99b.png)
+   
 ## Authors
 
 * [Kai Davis](kdavis@colgate.edu)
