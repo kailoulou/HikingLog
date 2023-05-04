@@ -7,6 +7,9 @@ public class Trip {
     private String distance;
     private String temp;
     private String note;
+    private String xCord;
+    private String yCord;
+
 
     /** Constructor initialises the details of the trip
   	*  @param  dateIn: date the trip took place
@@ -21,6 +24,8 @@ public class Trip {
             distance = distanceIn;
             temp = tempIn;
             note = noteIn;
+            xCord = "0"; //cast later when using in map
+            yCord = "0"; //cast later when using in map
 	}
 
     /** Reads the date of the trip
@@ -80,6 +85,22 @@ public class Trip {
 
     public void setNote(String noteIn){
         note = noteIn;
+    }
+
+    public void setxCord(String xCordIn){
+        xCord = xCordIn;
+    }
+
+    public String getxCord(){
+        return xCord;
+    }
+
+    public void setyCord(String yCordIn){
+        yCord=yCordIn;
+    }
+
+    public String getyCord(){
+        return yCord;
     }
 
     @Override

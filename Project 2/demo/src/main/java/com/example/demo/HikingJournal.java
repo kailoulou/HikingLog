@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
@@ -409,6 +410,11 @@ public class HikingJournal extends Application {
             tripList.addTrip(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
             logData.add(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
             update();
+            addLocation.setText(""); //clears old user inputs
+            addDate.setText("");
+            addDistance.setText("");
+            addTemp.setText("");
+            addNote.setText("");
             stage.close();
         });
     }
