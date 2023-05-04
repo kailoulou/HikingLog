@@ -133,6 +133,7 @@ https://coderslegacy.com/java/switch-between-scenes-in-javafx/
 https://stackoverflow.com/questions/36861056/javafx-textfield-auto-suggestions 
 
 https://gist.github.com/floralvikings/10290131 
+https://searchcode.com/codesearch/view/79988213/
 * TextField with AutoFill
 
 https://docs.oracle.com/javase/8/javafx/api/javafx/collections/transformation/FilteredList.html 
