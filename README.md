@@ -207,6 +207,9 @@ Herman Shugart, Peter White, Sassan Saatchi, and Jérôme Chave. 2022. The wor
 * 0.1 (3/29/23)
     * Initial Release
 * 0.2 (5/11/23)
-    * Save feature 
+    * Save and Load feature 
     * Improved UI
+    * Upload Image feature
+    * AutoComplete Trail feature
+    * Accordion feature
     * Map function
