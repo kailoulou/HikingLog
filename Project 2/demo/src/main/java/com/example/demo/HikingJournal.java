@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
@@ -12,7 +13,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.io.IOException;
-
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,12 +35,16 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.io.File;
 import java.util.*;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
@@ -119,18 +125,21 @@ public class HikingJournal extends Application {
     private AutoCompletionBinding<String> autoCompletionBinding;
     //init size
     private final int WIDTH = 800;
-    private final int HEIGHT = 500;
+    private final int HEIGHT = 480;
 
     // MIN WIDTH & HEIGHT
-    private final int MINWIDTH = 760;
-    private final int MINHEIGHT = 500;
+    private final int MINWIDTH = WIDTH;
+    private final int MINHEIGHT = HEIGHT;
+    private double startX;
+    private double startY;
 
     //log tab
     final VBox totalBox = new VBox();
     final VBox sumBox = new VBox();
     final VBox buttonBox = new VBox();
     final HBox infoBox = new HBox(totalBox, sumBox, buttonBox);
-    final HBox logBox = new HBox(logTable);
+    final HBox logHolder = new HBox(logTable);
+    final HBox logBox = new HBox(logHolder);
     final VBox mainLogBox = new VBox(logBox, infoBox);
     
 
@@ -187,6 +196,9 @@ public class HikingJournal extends Application {
         logTable.setEditable(true);
         logTable.setPrefWidth(Integer.MAX_VALUE);
         logTable.setPrefHeight(Integer.MAX_VALUE);
+
+        logHolder.setPrefWidth(Integer.MAX_VALUE);
+        logHolder.setPrefWidth(Integer.MAX_VALUE);
         logTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         logTable.setItems(logData);
@@ -270,7 +282,18 @@ public class HikingJournal extends Application {
 
         noteDetails.setWrapText(true);
 
-        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails);
+        Image image = new Image(new FileInputStream("/Users/lspagnoli/Desktop/Pictures/93604.jpg"));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(380);
+        imageView.setPreserveRatio(true);
+
+        Group handler = makeHandler();
+        handler.translateXProperty().bindBidirectional(imageView.fitWidthProperty());
+        handler.translateYProperty().bindBidirectional(imageView.fitHeightProperty());
+
+        Group imageGroup = new Group(imageView, handler);
+
+        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails, imageGroup);
         logBox.getChildren().addAll(accor);
         detailClick();
         detailArrowClick(scene);
@@ -777,5 +800,32 @@ public class HikingJournal extends Application {
                 }
             }
         });
+    }
+
+    private Group makeHandler() {
+
+        Polygon polygon = new Polygon();
+        Group group = new Group(polygon);
+        polygon.getPoints().addAll(0.0, 0.0, 0.0, -20.0, -20.0, 0.0);
+        polygon.setStroke(Color.BLACK);
+        polygon.setFill(Color.AZURE);
+
+        polygon.setStrokeWidth(2);
+        polygon.setStrokeType(StrokeType.INSIDE);
+
+        group.setOnMousePressed(e -> {
+
+            startX = group.getLayoutX() - e.getX();
+            startY = group.getLayoutY() - e.getY();
+
+        });
+
+        group.setOnMouseDragged(e -> {
+            group.setTranslateX(group.getTranslateX() + e.getX() + startX);
+            group.setTranslateY(group.getTranslateY() + e.getY() + startY);
+
+        });
+
+        return group;
     }
 }
