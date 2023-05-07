@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.sothawo.mapjfx.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.io.IOException;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,7 +29,6 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldListCell;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
@@ -44,7 +41,7 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.util.*;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
@@ -282,7 +279,7 @@ public class HikingJournal extends Application {
 
         noteDetails.setWrapText(true);
 
-        Image image = new Image(new FileInputStream("/Users/lspagnoli/Desktop/Pictures/93604.jpg"));
+        Image image = new Image(new FileInputStream("Project 2/demo/src/main/resources/com/example/demo/93604.jpg"));
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(380);
         imageView.setPreserveRatio(true);
