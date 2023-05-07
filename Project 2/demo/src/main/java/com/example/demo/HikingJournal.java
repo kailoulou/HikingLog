@@ -76,6 +76,8 @@ public class HikingJournal extends Application {
         new String("Buy Hiking Boots")
     );
 
+    ImageView imageView = new ImageView();
+
     Button newJournal = new Button("Create New Journal");
     Button continueJournal = new Button("Continue Previous Journal");
     Button addButton = new Button("Add Trip");
@@ -118,11 +120,13 @@ public class HikingJournal extends Application {
 
     Button submitButton = new Button("Submit");
 
+    Button chooseImage = new Button("Upload Image");
+
     ArrayList<String> suggestions = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     //init size
     private final int WIDTH = 800;
-    private final int HEIGHT = 480;
+    private final int HEIGHT = 550;
 
     // MIN WIDTH & HEIGHT
     private final int MINWIDTH = WIDTH;
@@ -138,7 +142,6 @@ public class HikingJournal extends Application {
     final HBox logHolder = new HBox(logTable);
     final HBox logBox = new HBox(logHolder);
     final VBox mainLogBox = new VBox(logBox, infoBox);
-    
 
     //plan tab
     final VBox planButtonBox = new VBox();
@@ -279,8 +282,9 @@ public class HikingJournal extends Application {
 
         noteDetails.setWrapText(true);
 
-        Image image = new Image(new FileInputStream("Project 2/demo/src/main/resources/com/example/demo/93604.jpg"));
-        ImageView imageView = new ImageView(image);
+        Image image = new Image(new FileInputStream("Project 2/demo/src/main/resources/com/example/demo/93604.jpg")); //default image
+        imageView = new ImageView(image);
+
         imageView.setFitWidth(380);
         imageView.setPreserveRatio(true);
 
@@ -290,10 +294,14 @@ public class HikingJournal extends Application {
 
         Group imageGroup = new Group(imageView, handler);
 
-        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails, imageGroup);
+
+        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails, imageGroup, chooseImage);
         logBox.getChildren().addAll(accor);
+        chooseImage.setVisible(false);
         detailClick();
         detailArrowClick(scene);
+        imageUploadHandle(primaryStage, logTable.getSelectionModel().getSelectedItem());
+
         setNote(scene);
         setTemp(scene);
 
@@ -477,6 +485,7 @@ public class HikingJournal extends Application {
                 }
             }
         });
+
     }
     private void updateTripList(){
         tripList.clearList();
@@ -749,11 +758,18 @@ public class HikingJournal extends Application {
                 tempDetails.setText("" + row.getTemp());
                 noteDetails.setText("" + row.getNote());
                 trailDetailsLabel.setText("" + row.getLocation());
+                try {
+                    updateImage(row);
+                } catch (IOException e) {
+                    System.out.println("oof");
+                    throw new RuntimeException(e);
+                }
+                chooseImage.setVisible(true);
             }
         });
     }
 
-    protected void detailArrowClick(Scene sceneIn) {
+    protected void detailArrowClick(Scene sceneIn){
         sceneIn.addEventFilter(KeyEvent.ANY, evt -> {
             Trip row = logTable.getSelectionModel().getSelectedItem();
 
@@ -763,6 +779,14 @@ public class HikingJournal extends Application {
                     tempDetails.setText("" + row.getTemp());
                     noteDetails.setText("" + row.getNote());
                     trailDetailsLabel.setText("" + row.getLocation());
+                    try {
+                        updateImage(row);
+                    } catch (IOException e) {
+                        System.out.println("oof");
+                        throw new RuntimeException(e);
+                    }
+                    chooseImage.setVisible(true);
+
                 }
             }
         });
@@ -825,4 +849,37 @@ public class HikingJournal extends Application {
 
         return group;
     }
+
+    private void updateImage(Trip row) throws IOException{
+        Image image = new Image(new FileInputStream(row.getPathName())); //default image
+        imageView.setImage(image);
+    }
+
+    private void imageUploadHandle(Stage primaryStage, Trip row){
+        chooseImage.setOnAction(evt -> {
+            System.out.println("Image Selection Clicked");
+            FileChooser fileChooser = new FileChooser();
+
+            //Set extension filter for text files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            //Show save file dialog
+            File file = fileChooser.showOpenDialog(primaryStage);
+
+            System.out.println(row.getPathName());
+
+            if (file != null) {
+                row.setPathName(file.getPath());
+                System.out.println(row.getPathName());
+                try {
+                    updateImage(row);
+                } catch (IOException e) {
+                    System.out.println("oof");
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
 }

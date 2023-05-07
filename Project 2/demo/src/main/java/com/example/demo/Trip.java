@@ -9,6 +9,7 @@ public class Trip {
     private String note;
     private String xCord;
     private String yCord;
+    private String pathName;
 
 
     /** Constructor initialises the details of the trip
@@ -26,6 +27,7 @@ public class Trip {
             note = noteIn;
             xCord = "0"; //cast later when using in map
             yCord = "0"; //cast later when using in map
+            pathName = "Project 2/demo/src/main/resources/com/example/demo/DSC_0155.jpg";
 	}
 
     /** Reads the date of the trip
@@ -101,6 +103,14 @@ public class Trip {
 
     public String getyCord(){
         return yCord;
+    }
+
+    public String getPathName(){
+        return pathName;
+    }
+
+    public void setPathName(String pathNameIn){
+        pathName=pathNameIn;
     }
 
     @Override
