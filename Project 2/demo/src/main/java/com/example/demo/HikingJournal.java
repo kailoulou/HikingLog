@@ -5,12 +5,17 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 //Adding the FXML loader so that we can squeeze in the map feature
 import javafx.fxml.FXML;
@@ -27,6 +32,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -66,7 +73,7 @@ public class HikingJournal extends Application {
     private ObservableList<String> todoData = FXCollections.observableArrayList(
         new String("Buy Hiking Boots")
     );
-
+    ImageView imageView = new ImageView();
     Button newJournal = new Button("Create New Journal");
     Button continueJournal = new Button("Continue Previous Journal");
     Button addButton = new Button("Add Trip");
@@ -90,10 +97,10 @@ public class HikingJournal extends Application {
     Label trailDetailsLabel = new Label("-----");
     Label tempDetailsLabel = new Label("Weather:");
     Label noteDetailsLabel = new Label("Notes:");
-
-    Label addLabel = new Label("Add Trip");
     Label locationLabel = new Label("Location:");
-    TextField addLocation = new TextField();
+    ObservableList<String> suggestions = FXCollections.observableArrayList();
+    ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/AllTrails data - nationalpark.csv"));
+    AutoCompleteComboBoxListener addBox = new AutoCompleteComboBoxListener(addLocation);
 
     Label dateLabel = new Label("Date (m/d/y):");
     TextField addDate = new TextField();
@@ -108,16 +115,17 @@ public class HikingJournal extends Application {
     TextArea addNote = new TextArea();
 
     Button submitButton = new Button("Submit");
+    Button chooseImage = new Button("Upload Image");
 
-    ArrayList<String> suggestions = new ArrayList<>();
-    private AutoCompletionBinding<String> autoCompletionBinding;
     //init size
     private final int WIDTH = 800;
-    private final int HEIGHT = 500;
+    private final int HEIGHT = 660;
 
     // MIN WIDTH & HEIGHT
     private final int MINWIDTH = 760;
-    private final int MINHEIGHT = 500;
+    private final int MINHEIGHT = 660;
+    private double startX;
+    private double startY;
 
     //log tab
     final VBox totalBox = new VBox();
@@ -284,10 +292,23 @@ public class HikingJournal extends Application {
 
         noteDetails.setWrapText(true);
 
+        Image image = new Image(new FileInputStream("Project 2/demo/src/main/resources/com/example/demo/93604.jpg")); //default image
+        imageView = new ImageView(image);
+
+        imageView.setFitWidth(380);
+        imageView.setPreserveRatio(true);
+
+        Group handler = makeHandler();
+        handler.translateXProperty().bindBidirectional(imageView.fitWidthProperty());
+        handler.translateYProperty().bindBidirectional(imageView.fitHeightProperty());
+
+        Group imageGroup = new Group(imageView, handler);
+
         details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails);
         logBox.getChildren().addAll(accor);
         detailClick();
         detailArrowClick(scene);
+        imageUploadHandle(primaryStage, logTable.getSelectionModel().getSelectedItem());
         setNote(scene);
         setTemp(scene);
 
@@ -353,8 +374,6 @@ public class HikingJournal extends Application {
         addWindow.setScene(addScene);
 
         addHandler(addWindow);
-        autoComplete();
-        //private Set<String> possibleSuggestions = new HashSet<>(List.of(suggestions));
 
 
         primaryStage.setScene(introScene);
@@ -370,37 +389,6 @@ public class HikingJournal extends Application {
         for (int i=0; i<vb.length; i++) {
             vb[i].setAlignment(pos);
         }
-    }
-
-    public void autoComplete(){
-        //TextFields.bindAutoCompletion(addLocation, "Hey", "Hello", "Hello World", "Apple", "Cool", "Costa", "Cola", "Coca Cola");
-
-        /*ReadData.suggestionsArray(suggestions, "Project 2/Edited AllTrails data - nationalpark.csv");
-        String[] possibleSuggestionsArray = new String[suggestions.size()];
-        possibleSuggestionsArray = suggestions.toArray(possibleSuggestionsArray);
-        Set<String> possibleSuggestions = new HashSet<>(Arrays.asList(possibleSuggestionsArray));
-
-        autoCompletionBinding = TextFields.bindAutoCompletion(addLocation, possibleSuggestions);
-
-        addLocation.setOnKeyPressed(ke -> {
-            switch (ke.getCode()) {
-                case ENTER:
-                    autoCompletionLearnWord(possibleSuggestions, addLocation.getText().trim());
-                    break;
-                default:
-                    break;
-            }
-        });
-         */
-    }
-
-    private void autoCompletionLearnWord(Set<String> possibleSuggestions, String newWord){
-        possibleSuggestions.add(newWord);
-        // we dispose the old binding and recreate a new binding
-        if (autoCompletionBinding != null) {
-            autoCompletionBinding.dispose();
-        }
-        autoCompletionBinding = TextFields.bindAutoCompletion(addLocation, possibleSuggestions);
     }
 
     public void update(){
@@ -421,10 +409,10 @@ public class HikingJournal extends Application {
         });
 
         submitButton.setOnAction(evt ->{
-            tripList.addTrip(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
-            logData.add(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
+            tripList.addTrip(new Trip(addDate.getText(), addLocation.getValue().toString(), addDistance.getText(), addTemp.getText(), addNote.getText()));
+            logData.add(new Trip(addDate.getText(), addLocation.getValue().toString(), addDistance.getText(), addTemp.getText(), addNote.getText()));
             update();
-            addLocation.setText(""); //clears old user inputs
+             //clears old user inputs
             addDate.setText("");
             addDistance.setText("");
             addTemp.setText("");
@@ -743,6 +731,13 @@ public class HikingJournal extends Application {
                 tempDetails.setText("" + row.getTemp());
                 noteDetails.setText("" + row.getNote());
                 trailDetailsLabel.setText("" + row.getLocation());
+                try {
+                    updateImage(row);
+                } catch (IOException e) {
+                    System.out.println("oof");
+                    throw new RuntimeException(e);
+                }
+                chooseImage.setVisible(true);
             }
         });
     }
@@ -788,6 +783,63 @@ public class HikingJournal extends Application {
                 if(row != null && tempDetails.getText() != null){
                     row.setTemp(tempDetails.getText());
                     logTable.requestFocus();
+                }
+            }
+        });
+    }
+    private Group makeHandler() {
+
+        Polygon polygon = new Polygon();
+        Group group = new Group(polygon);
+        polygon.getPoints().addAll(0.0, 0.0, 0.0, -20.0, -20.0, 0.0);
+        polygon.setStroke(Color.BLACK);
+        polygon.setFill(Color.AZURE);
+
+        polygon.setStrokeWidth(2);
+        polygon.setStrokeType(StrokeType.INSIDE);
+
+        group.setOnMousePressed(e -> {
+
+            startX = group.getLayoutX() - e.getX();
+            startY = group.getLayoutY() - e.getY();
+
+        });
+
+        group.setOnMouseDragged(e -> {
+            group.setTranslateX(group.getTranslateX() + e.getX() + startX);
+            group.setTranslateY(group.getTranslateY() + e.getY() + startY);
+
+        });
+
+        return group;
+    }
+    private void updateImage(Trip row) throws IOException{
+        Image image = new Image(new FileInputStream(row.getPathName())); //default image
+        imageView.setImage(image);
+    }
+
+    private void imageUploadHandle(Stage primaryStage, Trip row){
+        chooseImage.setOnAction(evt -> {
+            System.out.println("Image Selection Clicked");
+            FileChooser fileChooser = new FileChooser();
+
+            //Set extension filter for text files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            //Show save file dialog
+            File file = fileChooser.showOpenDialog(primaryStage);
+
+            System.out.println(row.getPathName());
+
+            if (file != null) {
+                row.setPathName(file.getPath());
+                System.out.println(row.getPathName());
+                try {
+                    updateImage(row);
+                } catch (IOException e) {
+                    System.out.println("oof");
+                    throw new RuntimeException(e);
                 }
             }
         });
