@@ -67,11 +67,12 @@ public class Controller {
     private static final Coordinate coordKarlsruheCastle = new Coordinate(49.013517, 8.404435);
     private static final Coordinate coordKarlsruheHarbour = new Coordinate(49.015511, 8.323497);
     private static final Coordinate coordKarlsruheStation = new Coordinate(48.993284, 8.402186);
-    private static final Coordinate coordKarlsruheSoccer = new Coordinate(49.020035, 8.412975);
+
+    //private static final Coordinate coordKarlsruheSoccer = new Coordinate(49.020035, 8.412975);
     private static final Coordinate coordKarlsruheUniversity = new Coordinate(49.011809, 8.413639);
 
     private static final Coordinate coordOldRagTrail = new Coordinate(38.57052, -78.28729);
-    private static final Extent extentAllLocations = Extent.forCoordinates(coordKarlsruheCastle, coordKarlsruheHarbour, coordKarlsruheStation, coordKarlsruheSoccer);
+    private static final Extent extentAllLocations = Extent.forCoordinates(coordKarlsruheCastle, coordKarlsruheHarbour, coordKarlsruheStation);
 
     private static final Coordinate coordGermanyNorth = new Coordinate(55.05863889, 8.417527778);
     private static final Coordinate coordGermanySouth = new Coordinate(47.27166667, 10.17405556);
@@ -86,7 +87,7 @@ public class Controller {
     private final Marker markerKaHarbour;
     private final Marker markerKaCastle;
     private final Marker markerKaStation;
-    private final Marker markerKaSoccer;
+    //private final Marker markerKaSoccer;
     private final Marker markerClick;
 
     private final Marker markerOldRagTrail;
@@ -278,8 +279,8 @@ public class Controller {
         markerClick = Marker.createProvided(Marker.Provided.ORANGE).setVisible(false);
 
         // a marker with a custom icon
-        markerKaSoccer = new Marker(getClass().getResource("/ksc.png"), -20, -20).setPosition(coordKarlsruheSoccer)
-            .setVisible(false);
+       // markerKaSoccer = new Marker(getClass().getResource("com/example/demo/93604.png"), -20, -20).setPosition(coordKarlsruheSoccer)
+                //.setVisible(false);
 
         markerOldRagTrail = Marker.createProvided(Marker.Provided.GREEN).setPosition(coordOldRagTrail).setVisible(true);
 
@@ -322,7 +323,7 @@ public class Controller {
 //        }
 
         // set the custom css file for the MapView
-        mapView.setCustomMapviewCssURL(getClass().getResource("/custom_mapview.css"));
+        mapView.setCustomMapviewCssURL(getClass().getResource("/com/example/demo/custom_mapview.css"));
 
         leftControls.setExpandedPane(optionsLocations);
 
@@ -333,7 +334,7 @@ public class Controller {
         buttonKaHarbour.setOnAction(event -> mapView.setCenter(coordKarlsruheHarbour));
         buttonKaCastle.setOnAction(event -> mapView.setCenter(coordKarlsruheCastle));
         buttonKaStation.setOnAction(event -> mapView.setCenter(coordKarlsruheStation));
-        buttonKaSoccer.setOnAction(event -> mapView.setCenter(coordKarlsruheSoccer));
+        //buttonKaSoccer.setOnAction(event -> mapView.setCenter(coordKarlsruheSoccer));
 
         buttonAllLocations.setOnAction(event -> mapView.setExtent(extentAllLocations));
         logger.trace("location buttons done");
@@ -407,8 +408,8 @@ public class Controller {
             new ImageView(new Image(markerKaCastle.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
         checkKaStationMarker.setGraphic(
             new ImageView(new Image(markerKaStation.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
-        checkKaSoccerMarker.setGraphic(
-            new ImageView(new Image(markerKaSoccer.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
+        //checkKaSoccerMarker.setGraphic(
+            //new ImageView(new Image(markerKaSoccer.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
         checkClickMarker.setGraphic(
             new ImageView(new Image(markerClick.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
 
@@ -416,14 +417,14 @@ public class Controller {
         checkKaHarbourMarker.selectedProperty().bindBidirectional(markerKaHarbour.visibleProperty());
         checkKaCastleMarker.selectedProperty().bindBidirectional(markerKaCastle.visibleProperty());
         checkKaStationMarker.selectedProperty().bindBidirectional(markerKaStation.visibleProperty());
-        checkKaSoccerMarker.selectedProperty().bindBidirectional(markerKaSoccer.visibleProperty());
+        //checkKaSoccerMarker.selectedProperty().bindBidirectional(markerKaSoccer.visibleProperty());
         checkClickMarker.selectedProperty().bindBidirectional(markerClick.visibleProperty());
         logger.trace("marker checks done");
 
         // load two coordinate lines
-        trackMagenta = loadCoordinateLine(getClass().getResource("/M1.csv")).orElse(new CoordinateLine
+        trackMagenta = loadCoordinateLine(getClass().getResource("/com/example/demo/M1.csv")).orElse(new CoordinateLine
             ()).setColor(Color.MAGENTA);
-        trackCyan = loadCoordinateLine(getClass().getResource("/M2.csv")).orElse(new CoordinateLine
+        trackCyan = loadCoordinateLine(getClass().getResource("/com/example/demo/M2.csv")).orElse(new CoordinateLine
             ()).setColor(Color.CYAN).setWidth(7);
         logger.trace("tracks loaded");
         checkTrackMagenta.selectedProperty().bindBidirectional(trackMagenta.visibleProperty());
@@ -466,7 +467,7 @@ public class Controller {
         logger.debug("initialization finished");
 
         long animationStart = System.nanoTime();
-        new AnimationTimer() {
+        /*new AnimationTimer() {
             @Override
             public void handle(long nanoSecondsNow) {
                 if (markerKaSoccer.getVisible()) {
@@ -474,12 +475,13 @@ public class Controller {
                     long milliSecondsDelta = (nanoSecondsNow - animationStart) / 1_000_000;
                     long numSteps = milliSecondsDelta / 100;
                     int angle = (int) ((numSteps * 9) % 360);
-                    if (markerKaSoccer.getRotation() != angle) {
-                        markerKaSoccer.setRotation(angle);
-                    }
+                    //if (markerKaSoccer.getRotation() != angle) {
+                        //markerKaSoccer.setRotation(angle);
+                    //}
                 }
             }
-        }.start();
+        }*/
+        //start();
     }
 
     /**
@@ -615,7 +617,7 @@ public class Controller {
         mapView.addMarker(markerKaHarbour);
         mapView.addMarker(markerKaCastle);
         mapView.addMarker(markerKaStation);
-        mapView.addMarker(markerKaSoccer);
+        //mapView.addMarker(markerKaSoccer);
         // can't add the markerClick at this moment, it has no position, so it would not be added to the map
 
         // add the fix label, the other's are attached to markers.
