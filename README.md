@@ -1,6 +1,7 @@
-# Hiking Log Project
+# Hiking Log Project JDK 17
 
 ## Statement
+### This is a test build, please see main branch for the projects current official code
 ### The Nature and Purpose of our Project
 The purpose of this project is to create a digital equivalent of a traditional Hiking Log. It will have all of the personal characteristics of a physical hiking journal with the ease and organization of a web application. This program is intended to be used before and after the hike, so that the user can prepare and reflect on their journey.
 
