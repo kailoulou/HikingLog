@@ -6,8 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -16,15 +15,6 @@ import java.io.IOException;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -102,9 +92,7 @@ public class HikingJournal extends Application {
     Label tempDetailsLabel = new Label("Weather:");
     Label noteDetailsLabel = new Label("Notes:");
 
-    Label addLabel = new Label("Add Trip");
     Label locationLabel = new Label("Location:");
-    TextField addLocation = new TextField();
 
     Label dateLabel = new Label("Date (m/d/y):");
     TextField addDate = new TextField();
@@ -122,11 +110,12 @@ public class HikingJournal extends Application {
 
     Button chooseImage = new Button("Upload Image");
 
-    ArrayList<String> suggestions = new ArrayList<>();
-    private AutoCompletionBinding<String> autoCompletionBinding;
+    ObservableList<String> suggestions = FXCollections.observableArrayList();
+    ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/AllTrails data - nationalpark.csv"));
+    AutoCompleteComboBoxListener addBox = new AutoCompleteComboBoxListener(addLocation);
     //init size
     private final int WIDTH = 800;
-    private final int HEIGHT = 550;
+    private final int HEIGHT = 650;
 
     // MIN WIDTH & HEIGHT
     private final int MINWIDTH = WIDTH;
@@ -367,9 +356,6 @@ public class HikingJournal extends Application {
         addWindow.setScene(addScene);
 
         addHandler(addWindow);
-        autoComplete();
-        //private Set<String> possibleSuggestions = new HashSet<>(List.of(suggestions));
-
 
         primaryStage.setScene(introScene);
         primaryStage.setMinWidth(MINWIDTH);
@@ -384,37 +370,6 @@ public class HikingJournal extends Application {
         for (int i=0; i<vb.length; i++) {
             vb[i].setAlignment(pos);
         }
-    }
-
-    public void autoComplete(){
-        //TextFields.bindAutoCompletion(addLocation, "Hey", "Hello", "Hello World", "Apple", "Cool", "Costa", "Cola", "Coca Cola");
-
-        /*ReadData.suggestionsArray(suggestions, "Project 2/Edited AllTrails data - nationalpark.csv");
-        String[] possibleSuggestionsArray = new String[suggestions.size()];
-        possibleSuggestionsArray = suggestions.toArray(possibleSuggestionsArray);
-        Set<String> possibleSuggestions = new HashSet<>(Arrays.asList(possibleSuggestionsArray));
-
-        autoCompletionBinding = TextFields.bindAutoCompletion(addLocation, possibleSuggestions);
-
-        addLocation.setOnKeyPressed(ke -> {
-            switch (ke.getCode()) {
-                case ENTER:
-                    autoCompletionLearnWord(possibleSuggestions, addLocation.getText().trim());
-                    break;
-                default:
-                    break;
-            }
-        });
-         */
-    }
-
-    private void autoCompletionLearnWord(Set<String> possibleSuggestions, String newWord){
-        possibleSuggestions.add(newWord);
-        // we dispose the old binding and recreate a new binding
-        if (autoCompletionBinding != null) {
-            autoCompletionBinding.dispose();
-        }
-        autoCompletionBinding = TextFields.bindAutoCompletion(addLocation, possibleSuggestions);
     }
 
     public void update(){
@@ -435,10 +390,13 @@ public class HikingJournal extends Application {
         });
 
         submitButton.setOnAction(evt ->{
-            tripList.addTrip(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
-            logData.add(new Trip(addDate.getText(), addLocation.getText(), addDistance.getText(), addTemp.getText(), addNote.getText()));
+            tripList.addTrip(new Trip(addDate.getText(), addLocation.getValue().toString(), addDistance.getText(), addTemp.getText(), addNote.getText()));
+            logData.add(new Trip(addDate.getText(), addLocation.getValue().toString(), addDistance.getText(), addTemp.getText(), addNote.getText()));
             update();
-            addLocation.setText(""); //clears old user inputs
+            if (addLocation.getValue() != null &&
+                    !addLocation.getValue().toString().isEmpty()){
+                addLocation.setValue(null);
+            } //clears old user inputs
             addDate.setText("");
             addDistance.setText("");
             addTemp.setText("");

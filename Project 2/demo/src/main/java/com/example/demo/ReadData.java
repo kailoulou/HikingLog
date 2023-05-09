@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ReadData {
-    public static void suggestionsArray(ArrayList<String> suggestions, String pathToFile){
+    public static ObservableList<String> suggestionsArray(ObservableList<String> suggestions, String pathToFile){
         File file = new File(pathToFile);
 
         String FieldDelimiter = ",";
@@ -25,18 +25,12 @@ public class ReadData {
             br.readLine(); // skip the header line
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(FieldDelimiter, -1);
-
-                /*for(int i = 0; i < fields.length; i++){
-                    if (fields[i].length() > 0) {
-                        fields[i] = fields[i].substring(1, fields[i].length() - 1);
-                    }
-                }*/
                 suggestions.add(fields[1]);
             }
         }catch(IOException ioe) {
             System.out.println("No records found");
         }
-
-
+        System.out.print(suggestions);
+        return suggestions;
     }
 }

@@ -11,7 +11,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.version>5.9.1</junit.version>      </properties>
+    <junit.version>5.9.1</junit.version>
+  </properties>
 
   <repositories>
     <repository>
@@ -85,6 +86,10 @@
             <id>default-cli</id>
             <configuration>
               <mainClass>com.example.demo/com.example.demo.HikingJournal</mainClass>
+              <options>
+                <option>--add-exports</option>
+                <option>javafx.base/com.sun.javafx.event=org.controlsfx.controls</option>
+              </options>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
