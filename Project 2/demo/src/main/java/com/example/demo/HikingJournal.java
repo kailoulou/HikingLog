@@ -1,10 +1,10 @@
 package com.example.demo;
 
-import com.sothawo.mapjfx.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
@@ -29,15 +29,18 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldListCell;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.io.File;
 import java.util.*;
+import java.io.FileInputStream;
 
 import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
@@ -72,6 +75,8 @@ public class HikingJournal extends Application {
     private ObservableList<String> todoData = FXCollections.observableArrayList(
         new String("Buy Hiking Boots")
     );
+
+    ImageView imageView = new ImageView();
 
     Button newJournal = new Button("Create New Journal");
     Button continueJournal = new Button("Continue Previous Journal");
@@ -115,24 +120,28 @@ public class HikingJournal extends Application {
 
     Button submitButton = new Button("Submit");
 
+    Button chooseImage = new Button("Upload Image");
+
     ArrayList<String> suggestions = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     //init size
     private final int WIDTH = 800;
-    private final int HEIGHT = 500;
+    private final int HEIGHT = 550;
 
     // MIN WIDTH & HEIGHT
-    private final int MINWIDTH = 760;
-    private final int MINHEIGHT = 500;
+    private final int MINWIDTH = WIDTH;
+    private final int MINHEIGHT = HEIGHT;
+    private double startX;
+    private double startY;
 
     //log tab
     final VBox totalBox = new VBox();
     final VBox sumBox = new VBox();
     final VBox buttonBox = new VBox();
     final HBox infoBox = new HBox(totalBox, sumBox, buttonBox);
-    final HBox logBox = new HBox(logTable);
+    final HBox logHolder = new HBox(logTable);
+    final HBox logBox = new HBox(logHolder);
     final VBox mainLogBox = new VBox(logBox, infoBox);
-    
 
     //plan tab
     final VBox planButtonBox = new VBox();
@@ -187,6 +196,9 @@ public class HikingJournal extends Application {
         logTable.setEditable(true);
         logTable.setPrefWidth(Integer.MAX_VALUE);
         logTable.setPrefHeight(Integer.MAX_VALUE);
+
+        logHolder.setPrefWidth(Integer.MAX_VALUE);
+        logHolder.setPrefWidth(Integer.MAX_VALUE);
         logTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         logTable.setItems(logData);
@@ -270,10 +282,26 @@ public class HikingJournal extends Application {
 
         noteDetails.setWrapText(true);
 
-        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails);
+        Image image = new Image(new FileInputStream("Project 2/demo/src/main/resources/com/example/demo/93604.jpg")); //default image
+        imageView = new ImageView(image);
+
+        imageView.setFitWidth(380);
+        imageView.setPreserveRatio(true);
+
+        Group handler = makeHandler();
+        handler.translateXProperty().bindBidirectional(imageView.fitWidthProperty());
+        handler.translateYProperty().bindBidirectional(imageView.fitHeightProperty());
+
+        Group imageGroup = new Group(imageView, handler);
+
+
+        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails, imageGroup, chooseImage);
         logBox.getChildren().addAll(accor);
+        chooseImage.setVisible(false);
         detailClick();
         detailArrowClick(scene);
+        imageUploadHandle(primaryStage, logTable.getSelectionModel().getSelectedItem());
+
         setNote(scene);
         setTemp(scene);
 
@@ -457,6 +485,7 @@ public class HikingJournal extends Application {
                 }
             }
         });
+
     }
     private void updateTripList(){
         tripList.clearList();
@@ -729,11 +758,18 @@ public class HikingJournal extends Application {
                 tempDetails.setText("" + row.getTemp());
                 noteDetails.setText("" + row.getNote());
                 trailDetailsLabel.setText("" + row.getLocation());
+                try {
+                    updateImage(row);
+                } catch (IOException e) {
+                    System.out.println("oof");
+                    throw new RuntimeException(e);
+                }
+                chooseImage.setVisible(true);
             }
         });
     }
 
-    protected void detailArrowClick(Scene sceneIn) {
+    protected void detailArrowClick(Scene sceneIn){
         sceneIn.addEventFilter(KeyEvent.ANY, evt -> {
             Trip row = logTable.getSelectionModel().getSelectedItem();
 
@@ -743,6 +779,14 @@ public class HikingJournal extends Application {
                     tempDetails.setText("" + row.getTemp());
                     noteDetails.setText("" + row.getNote());
                     trailDetailsLabel.setText("" + row.getLocation());
+                    try {
+                        updateImage(row);
+                    } catch (IOException e) {
+                        System.out.println("oof");
+                        throw new RuntimeException(e);
+                    }
+                    chooseImage.setVisible(true);
+
                 }
             }
         });
@@ -778,4 +822,64 @@ public class HikingJournal extends Application {
             }
         });
     }
+
+    private Group makeHandler() {
+
+        Polygon polygon = new Polygon();
+        Group group = new Group(polygon);
+        polygon.getPoints().addAll(0.0, 0.0, 0.0, -20.0, -20.0, 0.0);
+        polygon.setStroke(Color.BLACK);
+        polygon.setFill(Color.AZURE);
+
+        polygon.setStrokeWidth(2);
+        polygon.setStrokeType(StrokeType.INSIDE);
+
+        group.setOnMousePressed(e -> {
+
+            startX = group.getLayoutX() - e.getX();
+            startY = group.getLayoutY() - e.getY();
+
+        });
+
+        group.setOnMouseDragged(e -> {
+            group.setTranslateX(group.getTranslateX() + e.getX() + startX);
+            group.setTranslateY(group.getTranslateY() + e.getY() + startY);
+
+        });
+
+        return group;
+    }
+
+    private void updateImage(Trip row) throws IOException{
+        Image image = new Image(new FileInputStream(row.getPathName())); //default image
+        imageView.setImage(image);
+    }
+
+    private void imageUploadHandle(Stage primaryStage, Trip row){
+        chooseImage.setOnAction(evt -> {
+            System.out.println("Image Selection Clicked");
+            FileChooser fileChooser = new FileChooser();
+
+            //Set extension filter for text files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            //Show save file dialog
+            File file = fileChooser.showOpenDialog(primaryStage);
+
+            System.out.println(row.getPathName());
+
+            if (file != null) {
+                row.setPathName(file.getPath());
+                System.out.println(row.getPathName());
+                try {
+                    updateImage(row);
+                } catch (IOException e) {
+                    System.out.println("oof");
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
 }
