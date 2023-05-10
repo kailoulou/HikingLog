@@ -144,6 +144,9 @@ public class HikingJournal extends Application {
     final HBox holdingButtonBox = new HBox(planButtonBox, todoButtonBox);
     final VBox mainPlanBox = new VBox(planBox, holdingButtonBox);
 
+    //---Kailoulou--- Map Tab stuff
+    final ArrayList<Coordinate> tripCoordinates = new ArrayList<Coordinate>();
+
 
     public static void main(String[] args){
         System.out.print("Hello there!\n");
@@ -171,13 +174,22 @@ public class HikingJournal extends Application {
         final Projection projection = getParameters().getUnnamed().contains("wgs84") ? Projection.WGS_84 : Projection.WEB_MERCATOR;
         controller.initMapAndControls(projection);
 
+
         // add test trips to the list
         tripList.addTrip(new Trip("7/20/21", "[PA] West Rim Trail", "33", "75", "This was a great 3 day backpacking trip!"));
         tripList.addTrip(new Trip("5/2/22", "[NY] Colgate Hiking Trail", "1", "55", "Too short"));
         tripList.addTrip(new Trip("9/12/22", "[PA] Appalachian Trail", "2190", "62", "Very rocky :("));
         tripList.addTrip(new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", "A lot of bears!"));
-
+        tripList.addTrip(new Trip("3/7/23", "Colgate","2", "80", "Nice!"));
+        //Temporary method to set up the coordinates
+        tripList.search("Colgate").setxCord("42.8192806095");
+        tripList.search("Colgate").setyCord("-75.5354365999");
+        System.out.println(tripList.search("Colgate").toString());
         planList.addPlan(new Plan("[NM] Philmont Scout Ranch", "180", "Hard"));
+        preLoadCoordinates(tripList);
+        createNewMapPin(controller);
+
+        //KAIKAI ADD STUFF HERE
 
         TabPane tabPane = new TabPane();
 
@@ -190,8 +202,6 @@ public class HikingJournal extends Application {
         plan.setContent(mainPlanBox);
         Tab mapTab = new Tab("Your Trips");
         mapTab.setContent(rootNode);
-
-        System.out.print("Hello from top!\n");
 
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabPane.getTabs().addAll(log, plan, mapTab);
@@ -400,6 +410,28 @@ public class HikingJournal extends Application {
         }
         catch (NumberFormatException nfe) {
             System.out.println("Not a number");
+        }
+    }
+
+    //This loads all of the coordinates that may already be in the uploaded files.
+    //Why the heck is the array not obj iterable?
+
+    /**
+     * This loads all of the coordinates which will be used to display on the map
+     * @param tripList List of trips that are currently loaded
+     * */
+    private void preLoadCoordinates(TripList tripList){
+        for (int i =0; i < tripList.getTotal(); i++){
+            Coordinate temp = new Coordinate(Double.parseDouble(tripList.getTrip(i).getxCord()),Double.parseDouble(tripList.getTrip(i).getyCord()));
+            tripCoordinates.add(temp);
+        }
+        System.out.println(tripCoordinates.toString());
+    }
+
+    //Stud(muffin) of a function. TODO: Implement the process for adding a coordinate to the mapView object
+    public void createNewMapPin(Controller controller){
+        for (int i =0; i < tripList.getTotal(); i++){
+            controller.addListCoordinates(tripList.getTrip(i));
         }
     }
 

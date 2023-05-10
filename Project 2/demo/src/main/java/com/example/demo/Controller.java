@@ -72,6 +72,8 @@ public class Controller {
     private static final Coordinate coordKarlsruheUniversity = new Coordinate(49.011809, 8.413639);
 
     private static final Coordinate coordOldRagTrail = new Coordinate(38.57052, -78.28729);
+
+    private static final Coordinate coordColgateUniversity = new Coordinate(42.8192806095, -75.5354365999);
     private static final Extent extentAllLocations = Extent.forCoordinates(coordKarlsruheCastle, coordKarlsruheHarbour, coordKarlsruheStation);
 
     private static final Coordinate coordGermanyNorth = new Coordinate(55.05863889, 8.417527778);
@@ -83,25 +85,13 @@ public class Controller {
     /** default zoom value. */
     private static final int ZOOM_DEFAULT = 14;
 
-    /** the markers. */
-    private final Marker markerKaHarbour;
-    private final Marker markerKaCastle;
-    private final Marker markerKaStation;
-    //private final Marker markerKaSoccer;
-    private final Marker markerClick;
+    private final Marker colgateMarker;
 
     private final Marker markerOldRagTrail;
 
     /** the labels. */
-    private final MapLabel labelKaUniversity;
 
-    private final MapLabel labelOldRagTrail;
-    private final MapLabel labelKaCastle;
-    private final MapLabel labelKaStation;
-    private final MapLabel labelClick;
-
-    // a circle around the castle
-    private final MapCircle circleCastle;
+    private final MapLabel colgateLabel;
 
     @FXML
     /** button to set the map's zoom. */
@@ -257,6 +247,9 @@ public class Controller {
     @FXML
     private CheckBox checkConstrainGermany;
 
+    @FXML
+    private CheckBox checkColgateUniversity;
+
     /** params for the WMS server. */
     private WMSParam wmsParam = new WMSParam()
         .setUrl("http://ows.terrestris.de/osm/service?")
@@ -268,37 +261,19 @@ public class Controller {
             "'Tiles &copy; <a href=\"https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer\">ArcGIS</a>'");
 
     public Controller() {
-        // a couple of markers using the provided ones
-        markerKaHarbour = Marker.createProvided(Marker.Provided.BLUE).setPosition(coordKarlsruheHarbour).setVisible(
-            false);
-        markerKaCastle = Marker.createProvided(Marker.Provided.GREEN).setPosition(coordKarlsruheCastle).setVisible(
-            false);
-        markerKaStation =
-            Marker.createProvided(Marker.Provided.RED).setPosition(coordKarlsruheStation).setVisible(false);
-        // no position for click marker yet
-        markerClick = Marker.createProvided(Marker.Provided.ORANGE).setVisible(false);
+        //Creating the markers for the user
 
-        // a marker with a custom icon
-       // markerKaSoccer = new Marker(getClass().getResource("com/example/demo/93604.png"), -20, -20).setPosition(coordKarlsruheSoccer)
-                //.setVisible(false);
+        // a couple of markers using the provided ones
 
         markerOldRagTrail = Marker.createProvided(Marker.Provided.GREEN).setPosition(coordOldRagTrail).setVisible(true);
-
+        colgateMarker = Marker.createProvided(Marker.Provided.RED).setPosition(coordColgateUniversity).setVisible(false);
+        colgateLabel = new MapLabel("Colgate University",10,-10).setVisible(true).setCssClass("red-label");
+        colgateMarker.attachLabel(colgateLabel);
+        //addListCoordinates(tripList);
         // the fix label, default style
-        labelKaUniversity = new MapLabel("university").setPosition(coordKarlsruheUniversity).setVisible(true);
-        // the attached labels, custom style
-        labelKaCastle = new MapLabel("castle", 10, -10).setVisible(false).setCssClass("green-label");
-        labelKaStation = new MapLabel("station", 10, -10).setVisible(false).setCssClass("red-label");
-        labelOldRagTrail = new MapLabel("Old Rag Trail", 10, -10).setVisible(true).setCssClass("green-label");
-        labelClick = new MapLabel("click!", 10, -10).setVisible(false).setCssClass("orange-label");
-
-        markerKaCastle.attachLabel(labelKaCastle);
-        markerKaStation.attachLabel(labelKaStation);
-        markerClick.attachLabel(labelClick);
-        markerOldRagTrail.attachLabel(labelOldRagTrail);
-
-        circleCastle = new MapCircle(coordKarlsruheStation, 1_000).setVisible(true);
     }
+
+
 
     /**
      * called after the fxml is loaded and all objects are created. This is not called initialize any more,
@@ -313,14 +288,6 @@ public class Controller {
         // init MapView-Cache
         final OfflineCache offlineCache = mapView.getOfflineCache();
         final String cacheDir = System.getProperty("java.io.tmpdir") + "/mapjfx-cache";
-//        logger.info("using dir for cache: " + cacheDir);
-//        try {
-//            Files.createDirectories(Paths.get(cacheDir));
-//            offlineCache.setCacheDirectory(cacheDir);
-//            offlineCache.setActive(true);
-//        } catch (IOException e) {
-//            logger.warn("could not activate offline cache", e);
-//        }
 
         // set the custom css file for the MapView
         mapView.setCustomMapviewCssURL(getClass().getResource("/com/example/demo/custom_mapview.css"));
@@ -330,13 +297,6 @@ public class Controller {
         // set the controls to disabled, this will be changed when the MapView is intialized
         setControlsDisable(true);
 
-        // wire up the location buttons
-        buttonKaHarbour.setOnAction(event -> mapView.setCenter(coordKarlsruheHarbour));
-        buttonKaCastle.setOnAction(event -> mapView.setCenter(coordKarlsruheCastle));
-        buttonKaStation.setOnAction(event -> mapView.setCenter(coordKarlsruheStation));
-        //buttonKaSoccer.setOnAction(event -> mapView.setCenter(coordKarlsruheSoccer));
-
-        buttonAllLocations.setOnAction(event -> mapView.setExtent(extentAllLocations));
         logger.trace("location buttons done");
 
         // wire the zoom button and connect the slider to the map's zoom
@@ -402,23 +362,11 @@ public class Controller {
         setupEventHandlers();
 
         // add the graphics to the checkboxes
-        checkKaHarbourMarker.setGraphic(
-            new ImageView(new Image(markerKaHarbour.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
-        checkKaCastleMarker.setGraphic(
-            new ImageView(new Image(markerKaCastle.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
-        checkKaStationMarker.setGraphic(
-            new ImageView(new Image(markerKaStation.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
-        //checkKaSoccerMarker.setGraphic(
-            //new ImageView(new Image(markerKaSoccer.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
-        checkClickMarker.setGraphic(
-            new ImageView(new Image(markerClick.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
+        checkColgateUniversity.setGraphic(
+                new ImageView(new Image(colgateMarker.getImageURL().toExternalForm(), 16.0, 16.0, true, true)));
 
         // bind the checkboxes to the markers visibility
-        checkKaHarbourMarker.selectedProperty().bindBidirectional(markerKaHarbour.visibleProperty());
-        checkKaCastleMarker.selectedProperty().bindBidirectional(markerKaCastle.visibleProperty());
-        checkKaStationMarker.selectedProperty().bindBidirectional(markerKaStation.visibleProperty());
-        //checkKaSoccerMarker.selectedProperty().bindBidirectional(markerKaSoccer.visibleProperty());
-        checkClickMarker.selectedProperty().bindBidirectional(markerClick.visibleProperty());
+        checkColgateUniversity.selectedProperty().bindBidirectional(colgateMarker.visibleProperty());
         logger.trace("marker checks done");
 
         // load two coordinate lines
@@ -467,21 +415,6 @@ public class Controller {
         logger.debug("initialization finished");
 
         long animationStart = System.nanoTime();
-        /*new AnimationTimer() {
-            @Override
-            public void handle(long nanoSecondsNow) {
-                if (markerKaSoccer.getVisible()) {
-                    // every 100ms, increase the rotation of the markerKaSoccer by 9 degrees, make a turn in 4 seconds
-                    long milliSecondsDelta = (nanoSecondsNow - animationStart) / 1_000_000;
-                    long numSteps = milliSecondsDelta / 100;
-                    int angle = (int) ((numSteps * 9) % 360);
-                    //if (markerKaSoccer.getRotation() != angle) {
-                        //markerKaSoccer.setRotation(angle);
-                    //}
-                }
-            }
-        }*/
-        //start();
     }
 
     /**
@@ -495,16 +428,6 @@ public class Controller {
             labelEvent.setText("Event: map clicked at: " + newPosition);
             if (checkDrawPolygon.isSelected()) {
                 handlePolygonClick(event);
-            }
-            if (markerClick.getVisible()) {
-                final Coordinate oldPosition = markerClick.getPosition();
-                if (oldPosition != null) {
-                    animateClickMarker(oldPosition, newPosition);
-                } else {
-                    markerClick.setPosition(newPosition);
-                    // adding can only be done after coordinate is set
-                    mapView.addMarker(markerClick);
-                }
             }
         });
 
@@ -548,6 +471,7 @@ public class Controller {
         logger.trace("map handlers initialized");
     }
 
+
     private void animateClickMarker(Coordinate oldPosition, Coordinate newPosition) {
         // animate the marker to the new position
         final Transition transition = new Transition() {
@@ -558,14 +482,12 @@ public class Controller {
 
             {
                 setCycleDuration(Duration.seconds(1.0));
-                setOnFinished(evt -> markerClick.setPosition(newPosition));
             }
 
             @Override
             protected void interpolate(double v) {
                 final double latitude = oldPosition.getLatitude() + v * deltaLatitude;
                 final double longitude = oldPosition.getLongitude() + v * deltaLongitude;
-                markerClick.setPosition(new Coordinate(latitude, longitude));
             }
         };
         transition.play();
@@ -612,26 +534,37 @@ public class Controller {
         logger.debug("setting center and enabling controls...");
         // start at the harbour with default zoom
         mapView.setZoom(ZOOM_DEFAULT);
-        mapView.setCenter(coordKarlsruheHarbour);
+        mapView.setCenter(coordColgateUniversity);
         // add the markers to the map - they are still invisible
-        mapView.addMarker(markerKaHarbour);
-        mapView.addMarker(markerKaCastle);
-        mapView.addMarker(markerKaStation);
+        mapView.addMarker(colgateMarker);
         //mapView.addMarker(markerKaSoccer);
         // can't add the markerClick at this moment, it has no position, so it would not be added to the map
 
         // add the fix label, the other's are attached to markers.
-        mapView.addLabel(labelKaUniversity);
+
 
         // add the tracks
         mapView.addCoordinateLine(trackMagenta);
         mapView.addCoordinateLine(trackCyan);
 
-        // add the circle
-        mapView.addMapCircle(circleCastle);
-
         // now enable the controls
         setControlsDisable(false);
+    }
+
+    //Kai!
+    public void addListCoordinates(Trip myTrip){
+        System.out.println(myTrip);
+        Coordinate tempCoord = new Coordinate(Double.parseDouble(myTrip.getxCord()), Double.parseDouble(myTrip.getyCord()));
+        Marker tempMarker = Marker.createProvided(Marker.Provided.GREEN)
+                .setPosition(tempCoord).setVisible(true);
+        MapLabel tempLabel = new MapLabel(myTrip.getLocation(), 10, -10).setVisible(true).setCssClass("red-label");
+        tempMarker.attachLabel(tempLabel);
+        System.out.println(tempLabel);
+        System.out.println(tempMarker);
+        mapView.addMarker(tempMarker);
+        mapView.addLabel(tempLabel);
+        tempMarker.attachLabel(tempLabel);
+
     }
 
     /**

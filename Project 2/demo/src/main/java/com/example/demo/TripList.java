@@ -1,7 +1,7 @@
 package com.example.demo;
 import java.util.ArrayList;
 
-public class TripList {
+public class TripList extends ArrayList{
     private ArrayList<Trip> tripList;
 
     /** Constructor initialises the empty trip list

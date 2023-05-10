@@ -115,7 +115,7 @@ public class Trip {
 
     @Override
     public String toString() {
-        return date + ", " + location + ", " + distance + ", " + temp + ", " + note;
+        return date + ", " + location + ", " + distance + ", " + temp + ", " + note + ", "+xCord + ", "+yCord;
     }
 
 }
