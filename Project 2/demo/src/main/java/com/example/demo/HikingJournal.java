@@ -304,7 +304,7 @@ public class HikingJournal extends Application {
 
         Group imageGroup = new Group(imageView, handler);
 
-        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails);
+        details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails, imageGroup, chooseImage);
         logBox.getChildren().addAll(accor);
         detailClick();
         detailArrowClick(scene);
