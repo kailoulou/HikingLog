@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -14,8 +15,11 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
     private ObservableList<T> data;
     private boolean moveCaretToPos = false;
     private int caretPos;
+    private ComboBoxListViewSkin cbSkin;
 
     public AutoCompleteComboBoxListener(final ComboBox comboBox) {
+        //cbSkin = new ComboBoxListViewSkin(comboBox);
+        //ObservableList originalItems = FXCollections.observableArrayList(comboBox.getItems());
         this.comboBox = comboBox;
         sb = new StringBuilder();
         data = comboBox.getItems();
@@ -62,6 +66,15 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
                 || event.getCode() == KeyCode.END || event.getCode() == KeyCode.TAB) {
             return;
         }
+/*
+        comboBox.setSkin(cbSkin);
+        cbSkin.getPopupContent().addEventFilter(KeyEvent.KEY_PRESSED, (evt) -> {
+            if(evt.getCode() == KeyCode.SPACE){
+                //filter = " ";
+                evt.consume();}
+        });
+
+ */
 
         ObservableList list = FXCollections.observableArrayList();
         for (int i=0; i<data.size(); i++) {
