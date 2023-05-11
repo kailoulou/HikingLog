@@ -28,10 +28,14 @@ public class ReadData {
                 suggestions.add(fields[1]);
 
                 String[] splitStrlat = fields[6].split(" ");
-                x = splitStrlat[1];
+                if (splitStrlat.length > 1){
+                    x = splitStrlat[1];
+                }
 
                 String[] splitStrlng = fields[7].split(" ");
-                y = splitStrlng[2].substring(0, splitStrlng[2].length() - 2);
+                if (splitStrlng.length > 2){
+                    y = splitStrlng[2].substring(0, splitStrlng[2].length() - 2);
+                }
 
                 list.addTrailName(new TrailName(fields[1], x, y));
             }

@@ -108,8 +108,7 @@ public class HikingJournal extends Application {
     Label noteDetailsLabel = new Label("Notes:");
     Label locationLabel = new Label("Location:");
     ObservableList<String> suggestions = FXCollections.observableArrayList();
-    //ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/AllTrails data - nationalpark.csv", tripList));
-    ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/Edited AllTrails data - nationalpark.csv"));
+    ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/AllTrails data - nationalpark.csv"));
     AutoCompleteComboBoxListener addBox = new AutoCompleteComboBoxListener(addLocation);
 
     Label dateLabel = new Label("Date (m/d/y):");

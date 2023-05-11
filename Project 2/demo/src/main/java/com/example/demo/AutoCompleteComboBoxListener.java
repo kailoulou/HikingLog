@@ -61,7 +61,7 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
 
         if (event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT
                 || event.isControlDown() || event.getCode() == KeyCode.HOME
-                || event.getCode() == KeyCode.END || event.getCode() == KeyCode.TAB) {
+                || event.getCode() == KeyCode.END || event.getCode() == KeyCode.TAB || event.getCode() == KeyCode.SPACE) {
             return;
         }
 
@@ -75,7 +75,7 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
         }
         String t = comboBox.getEditor().getText();
         comboBox.setItems(list);
-        //comboBox.getEditor().setText(t);
+        comboBox.getEditor().setText(t);
 
         if(!moveCaretToPos) {
             caretPos = -1;
