@@ -109,16 +109,16 @@ Both tableviews utilize an observable list of trip and plan objects respectively
 
 
 ## Objectives for this project
-1. Working with the World Map Library to implement an interactive map of the United States in which the location of each hike contained in the log is geographically pinned in the appropriate region
-2. Reorganize the visual components of our GUI to make it more aesthetically pleasing and easy for the user to navigate
-3. Create a search feature for hiking trails in which the name of the trail is autofilled from a dataset of hiking trails in the United States
-4. Initialize a custom “Add Trail” button in which users can add a trail to the hiking log, inputting the trail’s name into a search bar that will have autofill suggestions based on the trails contained in our dataset
-5. Implement graphics contexts to visually display and compare the data of each hike
-6. Add a feature in which users can upload their own photos, which can be shown in the trip accordion. If the user has not uploaded an image, a default image will be shown
-7. Check off feature in to do list that strikes-through an element contained in the list, conveying that it has been completed
-8. Implement a save feature in which the contents of the hiking log can be saved to a file and later edited in the application
-9. Create a start screen for the program in which the user can decide to create a new hiking log or continue editing a previously saved hiking log
-10. Stylize program with CSS to customize background colors and buttons
+1. Working with the World Map Library to implement an interactive map of the United States in which the location of each hike contained in the log is geographically pinned in the appropriate region - Kai
+2. Reorganize the visual components of our GUI to make it more aesthetically pleasing and easy for the user to navigate - Luke
+3. Create a search feature for hiking trails in which the name of the trail is autofilled from a dataset of hiking trails in the United States - Riley
+4. Initialize a custom “Add Trail” button in which users can add a trail to the hiking log, inputting the trail’s name into a search bar that will have autofill suggestions based on the trails contained in our dataset - Riley
+5. Implement graphics contexts to visually display and compare the data of each hike - Kai
+6. Add a feature in which users can upload their own photos, which can be shown in the trip accordion. If the user has not uploaded an image, a default image will be shown - Luke
+7. Create custom objects and object lists to seemlessly organize and manipulate tableview elements - Riley
+8. Implement a save feature in which the contents of the hiking log can be saved to a file and later edited in the application - Riley
+9. Create a start screen for the program in which the user can decide to create a new hiking log or continue editing a previously saved hiking log - Riley
+10. Stylize program with CSS to customize background colors and buttons - Luke
 
 ## Bibliography
 ### URLs
