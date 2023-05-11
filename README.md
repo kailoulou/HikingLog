@@ -216,7 +216,7 @@ Herman Shugart, Peter White, Sassan Saatchi, and Jérôme Chave. 2022. The wor
 
    <img width="898" alt="Screen Shot 2023-05-11 at 3 44 17 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/ee89edd8-feea-42c3-be59-7b6415da2298">
    
-   <img width="901" alt="Screen Shot 2023-05-11 at 3 44 52 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/cacdf0e9-eb9c-4caf-a6e9-60c38ed833d3">
+   <img width="898" alt="Screen Shot 2023-05-11 at 3 47 53 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/93319358-9164-49e1-9311-68f89da6ab58">
 
 ## Authors
 
