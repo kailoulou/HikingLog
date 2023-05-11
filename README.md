@@ -179,27 +179,44 @@ Herman Shugart, Peter White, Sassan Saatchi, and Jérôme Chave. 2022. The wor
    
    ![USALayer](https://user-images.githubusercontent.com/104330705/236319248-479aa40e-5321-4e01-bac8-0fef02e7e99b.png)
    
-## Current Hiking Log GUI
+## Hiking Log GUI
 * Start screen that appears when the user enters the application.
 
    <img width="799" alt="Screen Shot 2023-05-04 at 4 18 05 PM" src="https://user-images.githubusercontent.com/104330705/236319850-a9dd4c8e-fa5d-4305-9047-72b1e516e0bb.png">
 
 * Main unititialized hiking log and planning board screens that are loaded  when the user chooses the "Create New Journal" button in the start screen.
 
-version 1:
+### Version 1:
+
    <img width="800" alt="Screen Shot 2023-05-04 at 4 24 07 PM" src="https://user-images.githubusercontent.com/104330705/236321475-1a7cfb7f-4ec7-4988-9114-4171c9d22dd0.png">
    
    <img width="800" alt="Screen Shot 2023-05-04 at 4 26 29 PM" src="https://user-images.githubusercontent.com/104330705/236321499-296e92d6-bb36-4663-9218-d92864cc4ce5.png">
 
-Current version:
-  <img width="902" alt="Screen Shot 2023-05-11 at 3 47 08 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/0513cb11-478b-46fb-85d0-b284a55fcd65">
+### Current version:
 
+   <img width="899" alt="Screen Shot 2023-05-11 at 3 43 25 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/b91ec4a6-0848-4376-acde-7a4b3c1aadb0">
+
+  <img width="902" alt="Screen Shot 2023-05-11 at 3 47 08 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/0513cb11-478b-46fb-85d0-b284a55fcd65">
+  
+  <img width="901" alt="Screen Shot 2023-05-11 at 3 44 52 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/93c9daf8-bc84-45d7-9de6-d4c3eb408e37">
 
 * Main hiking log and planning board screens that are loaded with a previous hiking log when the user chooses the "Contine Previous Journal" button in the start screen.
+
+### Version 1:
 
    <img width="802" alt="Screen Shot 2023-05-04 at 4 18 29 PM" src="https://user-images.githubusercontent.com/104330705/236320115-fbce15e3-860d-4e6d-bd82-5dc6b8455f2b.png">
    
    <img width="801" alt="Screen Shot 2023-05-04 at 4 18 37 PM" src="https://user-images.githubusercontent.com/104330705/236320502-a65671fc-e86c-44f6-a4f9-e3ed9ece64b5.png">
+
+### Current version:
+
+   <img width="900" alt="Screen Shot 2023-05-11 at 3 41 11 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/fa11763f-6633-49ba-b8d6-e93aeb414c2f">
+   
+   <img width="894" alt="Screen Shot 2023-05-11 at 3 50 29 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/5025a8e0-a35b-4eec-ad34-f4d04983e160">
+
+   <img width="898" alt="Screen Shot 2023-05-11 at 3 44 17 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/ee89edd8-feea-42c3-be59-7b6415da2298">
+   
+   <img width="901" alt="Screen Shot 2023-05-11 at 3 44 52 PM" src="https://github.com/kailoulou/HikingLog/assets/104330705/cacdf0e9-eb9c-4caf-a6e9-60c38ed833d3">
 
 ## Authors
 
