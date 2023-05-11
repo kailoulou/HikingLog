@@ -118,7 +118,7 @@ Both tableviews utilize an observable list of trip and plan objects respectively
 7. Create custom objects and object lists to seemlessly organize and manipulate tableview elements - Riley
 8. Implement a save feature in which the contents of the hiking log can be saved to a file and later edited in the application - Riley
 9. Create a start screen for the program in which the user can decide to create a new hiking log or continue editing a previously saved hiking log - Riley
-10. Stylize program with CSS to customize background colors and buttons - Luke
+10. Stylize program with CSS to customize background colors and buttons - Luke, Kai
 
 ## Bibliography
 ### URLs
