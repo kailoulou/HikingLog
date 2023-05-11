@@ -18,8 +18,6 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
     private ComboBoxListViewSkin cbSkin;
 
     public AutoCompleteComboBoxListener(final ComboBox comboBox) {
-        //cbSkin = new ComboBoxListViewSkin(comboBox);
-        //ObservableList originalItems = FXCollections.observableArrayList(comboBox.getItems());
         this.comboBox = comboBox;
         sb = new StringBuilder();
         data = comboBox.getItems();
@@ -66,15 +64,6 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
                 || event.getCode() == KeyCode.END || event.getCode() == KeyCode.TAB) {
             return;
         }
-/*
-        comboBox.setSkin(cbSkin);
-        cbSkin.getPopupContent().addEventFilter(KeyEvent.KEY_PRESSED, (evt) -> {
-            if(evt.getCode() == KeyCode.SPACE){
-                //filter = " ";
-                evt.consume();}
-        });
-
- */
 
         ObservableList list = FXCollections.observableArrayList();
         for (int i=0; i<data.size(); i++) {
@@ -86,7 +75,7 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
         }
         String t = comboBox.getEditor().getText();
         comboBox.setItems(list);
-        comboBox.getEditor().setText(t);
+        //comboBox.getEditor().setText(t);
 
         if(!moveCaretToPos) {
             caretPos = -1;
@@ -105,5 +94,4 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
         }
         moveCaretToPos = false;
     }
-
 }

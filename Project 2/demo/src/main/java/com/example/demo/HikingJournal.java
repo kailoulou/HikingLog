@@ -108,7 +108,8 @@ public class HikingJournal extends Application {
     Label noteDetailsLabel = new Label("Notes:");
     Label locationLabel = new Label("Location:");
     ObservableList<String> suggestions = FXCollections.observableArrayList();
-    ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/AllTrails data - nationalpark.csv"));
+    //ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/AllTrails data - nationalpark.csv", tripList));
+    ComboBox addLocation = new ComboBox(ReadData.suggestionsArray(suggestions, "Project 2/Edited AllTrails data - nationalpark.csv"));
     AutoCompleteComboBoxListener addBox = new AutoCompleteComboBoxListener(addLocation);
 
     Label dateLabel = new Label("Date (m/d/y):");
@@ -129,7 +130,6 @@ public class HikingJournal extends Application {
     //init size
     private final int WIDTH = 800;
     private final int HEIGHT = 660;
-
     // MIN WIDTH & HEIGHT
     private final int MINWIDTH = 760;
     private final int MINHEIGHT = 660;
