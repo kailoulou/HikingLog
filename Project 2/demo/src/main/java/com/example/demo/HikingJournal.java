@@ -59,6 +59,7 @@ public class HikingJournal extends Application {
     private TripList tripList = new TripList();
     private PlanList planList = new PlanList();
 
+    public Controller controller = new Controller();
     //initialize tableview
     private TableView<Trip> logTable = new TableView<Trip>();
     private ObservableList<Trip> logData = FXCollections.observableArrayList(
@@ -404,7 +405,11 @@ public class HikingJournal extends Application {
         primaryStage.setMinWidth(MINWIDTH);
         primaryStage.setMinHeight(MINHEIGHT);
         primaryStage.show();
+
+        controller.refreshMap();
     }
+
+
     private void setAlignments(HBox[] hb, VBox[] vb, Pos pos) {
 
         for (int i=0; i<hb.length; i++) {
@@ -449,6 +454,7 @@ public class HikingJournal extends Application {
             System.out.println("Attempting to add map Pins w/ " + tripList.getTrip(i).getLocation());
             controller.addCoordinatetoMapView(tripList.getTrip(i));
         }
+
     }
 
     public void addHandler(Stage stage){
@@ -457,9 +463,16 @@ public class HikingJournal extends Application {
         });
 
         submitButton.setOnAction(evt ->{
-            tripList.addTrip(new Trip(addDate.getText(), addLocation.getValue().toString(), addDistance.getText(), addTemp.getText(), addNote.getText()));
-            logData.add(new Trip(addDate.getText(), addLocation.getValue().toString(), addDistance.getText(), addTemp.getText(), addNote.getText()));
+            Trip tripToAdd = new Trip(addDate.getText(), addLocation.getValue().toString(), addDistance.getText(), addTemp.getText(), addNote.getText());
+            tripList.addTrip(tripToAdd);
+            logData.add(tripToAdd);
+            //KAI - DELETE THIS LATER!
+            tripToAdd.setxCord("42.9122807300");
+            tripToAdd.setyCord("-75.6354365999");
+            System.out.println("X COORDINATE ADDED:" + tripToAdd.getxCord());
+            controller.addCoordinatetoMapView(tripToAdd);
             update();
+            //controller.addCoordinatetoMapView(tripToAdd);
              //clears old user inputs
             addDate.setText("");
             addDistance.setText("");
@@ -512,6 +525,7 @@ public class HikingJournal extends Application {
         tripList.clearList();
         for (int i = 0; i < logData.size(); i++){
             tripList.addTrip(logData.get(i));
+
         }
     }
     private void updatePlanList(){

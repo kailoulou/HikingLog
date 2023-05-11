@@ -548,12 +548,6 @@ public class Controller {
         mapView.setCenter(coordColgateUniversity);
         // add the markers to the map - they are still invisible
         mapView.addMarker(colgateMarker);
-        //mapView.addMarker(markerKaSoccer);
-        // can't add the markerClick at this moment, it has no position, so it would not be added to the map
-
-        // add the fix label, the other's are attached to markers.
-
-
         // add the tracks
         mapView.addCoordinateLine(trackMagenta);
         mapView.addCoordinateLine(trackCyan);
@@ -567,7 +561,7 @@ public class Controller {
         Coordinate tempCoord = new Coordinate(Double.parseDouble(tripInput.getxCord()), Double.parseDouble(tripInput.getyCord()));
         Marker tempMarker = Marker.createProvided(Marker.Provided.RED)
                 .setPosition(tempCoord).setVisible(true);
-        MapLabel tempLabel = new MapLabel(tripInput.getLocation(), 10, -10).setVisible(true).setCssClass("red-label");
+        MapLabel tempLabel = new MapLabel(new String(tripInput.getLocation() + " " + tripInput.getDate()), 10, -10).setVisible(true).setCssClass("red-label");
         //Adding the stuff to the thing
         coordinatesList.add(tempCoord);
         labelsList.add(tempLabel);
@@ -579,12 +573,23 @@ public class Controller {
 
     //KAIKAI
     public void refreshMap(){
-        for (int i =0; i < coordinatesList.size(); i++){
-            markerList.get(i).createProvided(Marker.Provided.RED)
-                    .setPosition(coordinatesList.get(i)).setVisible(true);
-            markerList.get(i).attachLabel(labelsList.get(i));
-            mapView.addMarker(markerList.get(i));
+        if (coordinatesList.isEmpty()){
+            for (int i =0; i < coordinatesList.size(); i++){
+                markerList.get(i).createProvided(Marker.Provided.RED)
+                        .setPosition(coordinatesList.get(i)).setVisible(true);
+                markerList.get(i).attachLabel(labelsList.get(i));
+                mapView.addMarker(markerList.get(i));
+            }
+        }else{
+
+            for (int i =0; i < coordinatesList.size(); i++){
+                markerList.get(i).createProvided(Marker.Provided.RED)
+                        .setPosition(coordinatesList.get(i)).setVisible(true);
+                markerList.get(i).attachLabel(labelsList.get(i));
+                mapView.addMarker(markerList.get(i));
+            }
         }
+
     }
 
     /**
