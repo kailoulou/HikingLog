@@ -70,7 +70,6 @@ public class HikingJournal extends Application {
             //new Trip("-", "-", "-", "-", "-")
     );
 
-
     Plan dummyPlan = new Plan(" Test", "220", "EZ");
     private TableView<Plan> planTable = new TableView<Plan>();
     private ObservableList<Plan> planData = FXCollections.observableArrayList(
@@ -128,18 +127,18 @@ public class HikingJournal extends Application {
     Button chooseImage = new Button("Upload Image");
 
     //init size
-    private final int WIDTH = 800;
-    private final int HEIGHT = 660;
+    private final int WIDTH = 900;
+    private final int HEIGHT = 700;
     // MIN WIDTH & HEIGHT
-    private final int MINWIDTH = 760;
-    private final int MINHEIGHT = 660;
+    private final int MINWIDTH = WIDTH;
+    private final int MINHEIGHT = HEIGHT;
     private double startX;
     private double startY;
 
     //log tab
     final VBox totalBox = new VBox();
     final VBox sumBox = new VBox();
-    final VBox buttonBox = new VBox();
+    final HBox buttonBox = new HBox();
     final HBox infoBox = new HBox(totalBox, sumBox, buttonBox);
     final HBox logBox = new HBox(logTable);
     final VBox mainLogBox = new VBox(logBox, infoBox);
@@ -190,6 +189,7 @@ public class HikingJournal extends Application {
         tripList.addTrip(new Trip("9/12/22", "[PA] Appalachian Trail", "2190", "62", "Very rocky :("));
         tripList.addTrip(new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", "A lot of bears!"));
         tripList.addTrip(new Trip("3/7/23", "Colgate","2", "80", "Nice!"));
+
         //Temporary method to set up the coordinates
         tripList.search("Colgate").setxCord("42.8192806095");
         tripList.search("Colgate").setyCord("-75.5354365999");
@@ -313,7 +313,7 @@ public class HikingJournal extends Application {
 
         noteDetails.setWrapText(true);
 
-        Image image = new Image(new FileInputStream("Project 2/demo/src/main/resources/com/example/demo/93604.jpg")); //default image
+        Image image = new Image(new FileInputStream("Project 2/demo/src/main/resources/com/example/demo/default.png")); //default image
         imageView = new ImageView(image);
 
         imageView.setFitWidth(380);
@@ -326,6 +326,7 @@ public class HikingJournal extends Application {
         Group imageGroup = new Group(imageView, handler);
 
         chooseImage.setVisible(false);
+        accor.setExpandedPane(pane1);
 
         details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails, imageGroup, chooseImage);
         logBox.getChildren().addAll(accor);
@@ -721,30 +722,30 @@ public class HikingJournal extends Application {
         total.setMinHeight(25);
         total.setMinWidth(100);
         total.setMaxWidth(100);
-        totalBox.setMargin(total, new Insets(0, 40, 0, 10));
+        totalBox.setMargin(total, new Insets(0, 40, 10, 10));
 
         sum.setEditable(false);
         sum.setMinHeight(25);
         sum.setMinWidth(100);
         sum.setMaxWidth(100);
-        sumBox.setMargin(sum, new Insets(0, 0, 0, 40));
+        sumBox.setMargin(sum, new Insets(0, 0, 10, 40));
     }
 
     public void buttonSizing(){
         addButton.setMinHeight(25);
         addButton.setMinWidth(100);
         addButton.setMaxWidth(100);
-        buttonBox.setMargin(addButton, new Insets(10, 0, 5, 400));
+        buttonBox.setMargin(addButton, new Insets(20, 0, 10, 250));
 
         removeButton.setMinHeight(25);
         removeButton.setMinWidth(100);
         removeButton.setMaxWidth(100);
-        buttonBox.setMargin(removeButton, new Insets(0, 0, 10, 400));
+        buttonBox.setMargin(removeButton, new Insets(20, 0, 10, 10));
 
         saveButton.setMinHeight(25);
         saveButton.setMinWidth(100);
         saveButton.setMaxWidth(100);
-        buttonBox.setMargin(saveButton, new Insets(0, 0, 10, 400));
+        buttonBox.setMargin(saveButton, new Insets(20, 0, 10, 10));
 
         planAddButton.setMinHeight(25);
         planAddButton.setMinWidth(100);
