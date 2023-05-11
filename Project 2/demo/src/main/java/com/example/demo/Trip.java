@@ -27,7 +27,7 @@ public class Trip {
             note = noteIn;
             xCord = "0"; //cast later when using in map
             yCord = "0"; //cast later when using in map
-            pathName = "Project 2/demo/src/main/resources/com/example/demo/DSC_0155.jpg";
+            pathName = "Project 2/demo/src/main/resources/com/example/demo/default.png";
 	}
 
     /** Reads the date of the trip
