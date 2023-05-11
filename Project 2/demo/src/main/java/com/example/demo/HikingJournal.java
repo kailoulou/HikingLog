@@ -24,6 +24,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -134,7 +143,7 @@ public class HikingJournal extends Application {
     final HBox infoBox = new HBox(totalBox, sumBox, buttonBox);
     final HBox logBox = new HBox(logTable);
     final VBox mainLogBox = new VBox(logBox, infoBox);
-    
+
 
     //plan tab
     final VBox planButtonBox = new VBox();
@@ -314,11 +323,13 @@ public class HikingJournal extends Application {
 
         Group imageGroup = new Group(imageView, handler);
 
+        chooseImage.setVisible(false);
+
         details.getChildren().addAll(trailDetailsLabel, tempDetailsLabel, tempDetails, noteDetailsLabel, noteDetails, imageGroup, chooseImage);
         logBox.getChildren().addAll(accor);
-        detailClick();
-        detailArrowClick(scene);
-        imageUploadHandle(primaryStage, logTable.getSelectionModel().getSelectedItem());
+        detailClick(primaryStage);
+        detailArrowClick(scene, primaryStage);
+        //imageUploadHandle(primaryStage, logTable.getSelectionModel().getSelectedItem());
         setNote(scene);
         setTemp(scene);
 
@@ -752,7 +763,7 @@ public class HikingJournal extends Application {
         todoButtonBox.setMargin(todoRemoveButton, new Insets(0, 0, 10, 310));
     }
 
-    protected void detailClick() {
+    protected void detailClick(Stage stageIn) {
         //String h = housemates.getSelectionModel().getSelectedItem();
 
         logTable.setOnMouseClicked(evt -> {
@@ -770,11 +781,13 @@ public class HikingJournal extends Application {
                     throw new RuntimeException(e);
                 }
                 chooseImage.setVisible(true);
+                imageUploadHandle(stageIn, logTable.getSelectionModel().getSelectedItem());
             }
+
         });
     }
 
-    protected void detailArrowClick(Scene sceneIn) {
+    protected void detailArrowClick(Scene sceneIn, Stage stageIn) {
         sceneIn.addEventFilter(KeyEvent.ANY, evt -> {
             Trip row = logTable.getSelectionModel().getSelectedItem();
 
@@ -784,8 +797,17 @@ public class HikingJournal extends Application {
                     tempDetails.setText("" + row.getTemp());
                     noteDetails.setText("" + row.getNote());
                     trailDetailsLabel.setText("" + row.getLocation());
+                    try {
+                        updateImage(row);
+                    } catch (IOException e) {
+                        System.out.println("oof");
+                        throw new RuntimeException(e);
+                    }
+                    chooseImage.setVisible(true);
+                    imageUploadHandle(stageIn, logTable.getSelectionModel().getSelectedItem());
                 }
             }
+
         });
 
     }
@@ -859,14 +881,12 @@ public class HikingJournal extends Application {
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif");
             fileChooser.getExtensionFilters().add(extFilter);
 
-            //Show save file dialog
+            //Show open file dialog
             File file = fileChooser.showOpenDialog(primaryStage);
 
-            System.out.println(row.getPathName());
 
             if (file != null) {
                 row.setPathName(file.getPath());
-                System.out.println(row.getPathName());
                 try {
                     updateImage(row);
                 } catch (IOException e) {
