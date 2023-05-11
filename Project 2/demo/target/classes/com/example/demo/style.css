@@ -5,3 +5,16 @@
 .bg {
     -fx-background-color: #F6F5E8;
 }
+
+.table-view:focused .table-row-cell:selected {
+    -fx-background-color: #1F513F;
+    -fx-table-cell-border-color: #1F513F;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #1F513F;
+    -fx-text-fill: white;
+}
+
+
+
