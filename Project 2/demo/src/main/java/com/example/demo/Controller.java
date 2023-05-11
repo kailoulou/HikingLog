@@ -260,15 +260,26 @@ public class Controller {
         .withAttributions(
             "'Tiles &copy; <a href=\"https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer\">ArcGIS</a>'");
 
+
+    //KAI SHENANIGANS GO HERE!
+    public ArrayList<Coordinate> coordinatesList = new ArrayList<>();
+    public ArrayList<MapLabel> labelsList = new ArrayList<>();
+    public ArrayList<Marker> markerList = new ArrayList<>();
+
+
     public Controller() {
         //Creating the markers for the user
 
         // a couple of markers using the provided ones
-
+        coordinatesList.add(coordColgateUniversity);
+        System.out.println("Colgate Coordinates added!");
         markerOldRagTrail = Marker.createProvided(Marker.Provided.GREEN).setPosition(coordOldRagTrail).setVisible(true);
-        colgateMarker = Marker.createProvided(Marker.Provided.RED).setPosition(coordColgateUniversity).setVisible(false);
+        colgateMarker = Marker.createProvided(Marker.Provided.RED).setPosition(coordColgateUniversity).setVisible(true);
         colgateLabel = new MapLabel("Colgate University",10,-10).setVisible(true).setCssClass("red-label");
         colgateMarker.attachLabel(colgateLabel);
+        markerList.add(colgateMarker);
+        labelsList.add(colgateLabel);
+        //refreshMap();
         //addListCoordinates(tripList);
         // the fix label, default style
     }
@@ -546,25 +557,34 @@ public class Controller {
         // add the tracks
         mapView.addCoordinateLine(trackMagenta);
         mapView.addCoordinateLine(trackCyan);
+        refreshMap();
 
         // now enable the controls
         setControlsDisable(false);
     }
 
-    //Kai!
-    public void addListCoordinates(Trip myTrip){
-        System.out.println(myTrip);
-        Coordinate tempCoord = new Coordinate(Double.parseDouble(myTrip.getxCord()), Double.parseDouble(myTrip.getyCord()));
-        Marker tempMarker = Marker.createProvided(Marker.Provided.GREEN)
+    public void addCoordinatetoMapView(Trip tripInput){
+        Coordinate tempCoord = new Coordinate(Double.parseDouble(tripInput.getxCord()), Double.parseDouble(tripInput.getyCord()));
+        Marker tempMarker = Marker.createProvided(Marker.Provided.RED)
                 .setPosition(tempCoord).setVisible(true);
-        MapLabel tempLabel = new MapLabel(myTrip.getLocation(), 10, -10).setVisible(true).setCssClass("red-label");
-        tempMarker.attachLabel(tempLabel);
-        System.out.println(tempLabel);
-        System.out.println(tempMarker);
-        mapView.addMarker(tempMarker);
-        mapView.addLabel(tempLabel);
-        tempMarker.attachLabel(tempLabel);
+        MapLabel tempLabel = new MapLabel(tripInput.getLocation(), 10, -10).setVisible(true).setCssClass("red-label");
+        //Adding the stuff to the thing
+        coordinatesList.add(tempCoord);
+        labelsList.add(tempLabel);
+        markerList.add(tempMarker);
+        //refreshMap();
+        //System.out.println(tempCoord + " "+tempMarker + " "+ tempLabel + " "+tempCheckbox);
+        //System.out.println(coordinatesList);
+    }
 
+    //KAIKAI
+    public void refreshMap(){
+        for (int i =0; i < coordinatesList.size(); i++){
+            markerList.get(i).createProvided(Marker.Provided.RED)
+                    .setPosition(coordinatesList.get(i)).setVisible(true);
+            markerList.get(i).attachLabel(labelsList.get(i));
+            mapView.addMarker(markerList.get(i));
+        }
     }
 
     /**

@@ -65,7 +65,8 @@ public class HikingJournal extends Application {
             new Trip("7/20/21", "[PA] West Rim Trail", "33", "75", "This was a great 3 day backpacking trip!"),
             new Trip("5/2/22", "[NY] Colgate Hiking Trail", "1", "55", "Too short"),
             new Trip("9/12/22", "[PA] Appalachian Trail", "2190", "62", "Very rocky :("),
-            new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", "A lot of bears!")
+            new Trip("3/7/23", "[CA] Pacific Crest Trail", "2650", "84", "A lot of bears!"),
+            new Trip("3/7/23", "Colgate","2", "80", "Nice!")
             //new Trip("-", "-", "-", "-", "-")
     );
 
@@ -192,6 +193,8 @@ public class HikingJournal extends Application {
         //Temporary method to set up the coordinates
         tripList.search("Colgate").setxCord("42.8192806095");
         tripList.search("Colgate").setyCord("-75.5354365999");
+        tripList.search("[NY] Colgate Hiking Trail").setxCord("42.8122807300");
+        tripList.search("[NY] Colgate Hiking Trail").setyCord("-75.5364375300");
         System.out.println(tripList.search("Colgate").toString());
         planList.addPlan(new Plan("[NM] Philmont Scout Ranch", "180", "Hard"));
         preLoadCoordinates(tripList);
@@ -440,8 +443,10 @@ public class HikingJournal extends Application {
 
     //Stud(muffin) of a function. TODO: Implement the process for adding a coordinate to the mapView object
     public void createNewMapPin(Controller controller){
+        //controller.addCoordinatetoMapView(tripList.getTrip(i));
         for (int i =0; i < tripList.getTotal(); i++){
-            controller.addListCoordinates(tripList.getTrip(i));
+            System.out.println("Attempting to add map Pins w/ " + tripList.getTrip(i).getLocation());
+            controller.addCoordinatetoMapView(tripList.getTrip(i));
         }
     }
 
