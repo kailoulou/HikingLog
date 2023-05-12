@@ -53,6 +53,17 @@ This map will be under “Your Journeys” and will place pins or “Points of I
 
 Please see [this link](https://drive.google.com/file/d/1B2oWqkg_rKcseU7FoIQBnjslZfYs1i1e/view?usp=sharing) to see a live demonstration of the current version of the project
 
+## How to Run This Project
+
+It is highly recommended that you use Maven to run this file. Simply download the code from this file, go into your Maven lifecycle interface and run the `mvn -install`command. 
+
+If you wish to run this, then you will need to download this projects .JAR file along with ALL of its other dependancies .JAR files. From there, for a full list of the .JAR files, see the .site file and go to
+[Maven Repositories] (https://mvnrepository.com) and search and download each .JAR file. Place these JAR files in your Java SDK's /bin file. From there, you will need to run this code using the appropriate flags in the terminal of whatever IDE that you use. 
+
+Please note that there is a config file in this project which configurates all of the dependancies and resources in this project. If you have any issues running this in the terminal, please do the following: 
+1) Download Maven, its super easy, [follow this guide] (https://maven.apache.org/install.html)
+2) If you dont want to do that, make sure you have all of the jar files in your bin folder!
+
 ## Technical Outline
 ### File Responsibilities
 * Trip.java
@@ -151,8 +162,8 @@ https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Dialog.html
 https://genuinecoder.com/save-files-javafx-filechooser/ 
 * Saving files using FileChooser
 
-[https://github.com/HanSolo/countries](https://github.com/sothawo/mapjfx) / [https://github.com/sothawo/mapjfx-demo](Demo code)
-* Peter Josef-Meisch Repositories containing parts of the code for our solution to drawing and implementing an interactive map which users can place pins upon. 
+[Map JFX Library developed by Peter Josf-Meisch](https://github.com/sothawo/mapjfx) / [Demo code](https://github.com/sothawo/mapjfx-demo)
+* Repositories containing parts of the code for our solution to drawing and implementing an interactive map which users can place pins upon. 
 
 https://www.kaggle.com/datasets/planejane/national-park-trails?resource=download
 * Publicly available dataset containing all trails within the United States National Parks used for the auto filling function 
