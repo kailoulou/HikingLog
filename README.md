@@ -1,7 +1,6 @@
-# Hiking Log Project JDK 17
+# Hiking Log Project
 
 ## Statement
-### This is a test build, please see main branch for the projects current official code
 ### The Nature and Purpose of our Project
 The purpose of this project is to create a digital equivalent of a traditional Hiking Log. It will have all of the personal characteristics of a physical hiking journal with the ease and organization of a web application. This program is intended to be used before and after the hike, so that the user can prepare and reflect on their journey.
 
@@ -49,6 +48,10 @@ The right hand side accordion menu will display the input information for a hike
 
 
 This map will be under “Your Journeys” and will place pins or “Points of Interest” in the map which users can hover over, accessing the same data as in the hiking log. Upon hovering, it displays the name and the date of the hike. If the user clicks on it, they will be redirected to its respective entry in the log.
+
+## Demonstration 
+
+Please see [this link](https://drive.google.com/file/d/1B2oWqkg_rKcseU7FoIQBnjslZfYs1i1e/view?usp=sharing) to see a live demonstration of the current version of the project
 
 ## Technical Outline
 ### File Responsibilities
@@ -148,8 +151,8 @@ https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Dialog.html
 https://genuinecoder.com/save-files-javafx-filechooser/ 
 * Saving files using FileChooser
 
-https://github.com/HanSolo/countries
-* Repository containing parts of the code for our solution to drawing and implementing an interactive map which users can place pins upon. 
+[https://github.com/HanSolo/countries](https://github.com/sothawo/mapjfx) / [https://github.com/sothawo/mapjfx-demo](Demo code)
+* Peter Josef-Meisch Repositories containing parts of the code for our solution to drawing and implementing an interactive map which users can place pins upon. 
 
 https://www.kaggle.com/datasets/planejane/national-park-trails?resource=download
 * Publicly available dataset containing all trails within the United States National Parks used for the auto filling function 
@@ -235,3 +238,5 @@ Herman Shugart, Peter White, Sassan Saatchi, and Jérôme Chave. 2022. The wor
     * AutoComplete Trail feature
     * Accordion feature
     * Map function
+* 0.3 (05/12/2023)
+    * Added limited and broken map refreshment, displays coordinates of preloaded hikes. Can not add to map currently. TODO in next version
